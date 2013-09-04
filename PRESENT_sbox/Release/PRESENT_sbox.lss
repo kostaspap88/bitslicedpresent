@@ -1,0 +1,3964 @@
+
+AVRASM ver. 2.1.52  C:\Users\airwizard\Documents\Atmel Studio\PRESENT_sbox\PRESENT_sbox\PRESENT_sbox.asm Wed Sep 04 17:11:49 2013
+
+[builtin](2): Including file 'C:\Program Files (x86)\Atmel\Atmel Studio 6.0\extensions\Atmel\AVRAssembler\2.1.51.64\AvrAssembler/Include\tn85def.inc'
+C:\Users\airwizard\Documents\Atmel Studio\PRESENT_sbox\PRESENT_sbox\PRESENT_sbox.asm(53): Including file 'C:\Program Files (x86)\Atmel\Atmel Studio 6.0\extensions\Atmel\AVRAssembler\2.1.51.64\AvrAssembler/Include\tn85def.inc'
+C:\Users\airwizard\Documents\Atmel Studio\PRESENT_sbox\PRESENT_sbox\PRESENT_sbox.asm(60): warning: Register r18 already defined by the .DEF directive
+C:\Users\airwizard\Documents\Atmel Studio\PRESENT_sbox\PRESENT_sbox\PRESENT_sbox.asm(62): warning: Register r16 already defined by the .DEF directive
+C:\Users\airwizard\Documents\Atmel Studio\PRESENT_sbox\PRESENT_sbox\PRESENT_sbox.asm(66): warning: Register r16 already defined by the .DEF directive
+C:\Users\airwizard\Documents\Atmel Studio\PRESENT_sbox\PRESENT_sbox\PRESENT_sbox.asm(67): warning: Register r20 already defined by the .DEF directive
+C:\Users\airwizard\Documents\Atmel Studio\PRESENT_sbox\PRESENT_sbox\PRESENT_sbox.asm(98): warning: Register r26 already defined by the .DEF directive
+                 
+                 /*
+                 
+                 ;***** Created: 2011-02-09 12:04 ******* Source: ATtiny85.xml ************
+                 ;*************************************************************************
+                 ;* A P P L I C A T I O N   N O T E   F O R   T H E   A V R   F A M I L Y
+                 ;* 
+                 ;* Number            : AVR000
+                 ;* File Name         : "tn85def.inc"
+                 ;* Title             : Register/Bit Definitions for the ATtiny85
+                 ;* Date              : 2011-02-09
+                 ;* Version           : 2.35
+                 ;* Support E-mail    : avr@atmel.com
+                 ;* Target MCU        : ATtiny85
+                 ;* 
+                 ;* DESCRIPTION
+                 ;* When including this file in the assembly program file, all I/O register 
+                 ;* names and I/O register bit names appearing in the data book can be used.
+                 ;* In addition, the six registers forming the three data pointers X, Y and 
+                 ;* Z have been assigned names XL - ZH. Highest RAM address for Internal 
+                 ;* SRAM is also defined 
+                 ;* 
+                 ;* The Register names are represented by their hexadecimal address.
+                 ;* 
+                 ;* The Register Bit names are represented by their bit number (0-7).
+                 ;* 
+                 ;* Please observe the difference in using the bit names with instructions
+                 ;* such as "sbr"/"cbr" (set/clear bit in register) and "sbrs"/"sbrc"
+                 ;* (skip if bit in register set/cleared). The following example illustrates
+                 ;* this:
+                 ;* 
+                 ;* in    r16,PORTB             ;read PORTB latch
+                 ;* sbr   r16,(1<<PB6)+(1<<PB5) ;set PB6 and PB5 (use masks, not bit#)
+                 ;* out   PORTB,r16             ;output to PORTB
+                 ;* 
+                 ;* in    r16,TIFR              ;read the Timer Interrupt Flag Register
+                 ;* sbrc  r16,TOV0              ;test the overflow flag (use bit#)
+                 ;* rjmp  TOV0_is_set           ;jump if set
+                 ;* ...                         ;otherwise do something else
+                 ;*************************************************************************
+                 
+                 #ifndef _TN85DEF_INC_
+                 #define _TN85DEF_INC_
+                 
+                 
+                 #pragma partinc 0
+                 
+                 ; ***** SPECIFY DEVICE ***************************************************
+                 .device ATtiny85
+                 #pragma AVRPART ADMIN PART_NAME ATtiny85
+                 .equ	SIGNATURE_000	= 0x1e
+                 .equ	SIGNATURE_001	= 0x93
+                 .equ	SIGNATURE_002	= 0x0b
+                 
+                 #pragma AVRPART CORE CORE_VERSION V2
+                 #pragma AVRPART CORE NEW_INSTRUCTIONS lpm rd,z+
+                 
+                 
+                 ; ***** I/O REGISTER DEFINITIONS *****************************************
+                 ; NOTE:
+                 ; Definitions marked "MEMORY MAPPED"are extended I/O ports
+                 ; and cannot be used with IN/OUT instructions
+                 .equ	SREG	= 0x3f
+                 .equ	SPL	= 0x3d
+                 .equ	SPH	= 0x3e
+                 .equ	GIMSK	= 0x3b
+                 .equ	GIFR	= 0x3a
+                 .equ	TIMSK	= 0x39
+                 .equ	TIFR	= 0x38
+                 .equ	SPMCSR	= 0x37
+                 .equ	MCUCR	= 0x35
+                 .equ	MCUSR	= 0x34
+                 .equ	TCCR0B	= 0x33
+                 .equ	TCNT0	= 0x32
+                 .equ	OSCCAL	= 0x31
+                 .equ	TCCR1	= 0x30
+                 .equ	TCNT1	= 0x2f
+                 .equ	OCR1A	= 0x2e
+                 .equ	OCR1C	= 0x2d
+                 .equ	GTCCR	= 0x2c
+                 .equ	OCR1B	= 0x2b
+                 .equ	TCCR0A	= 0x2a
+                 .equ	OCR0A	= 0x29
+                 .equ	OCR0B	= 0x28
+                 .equ	PLLCSR	= 0x27
+                 .equ	CLKPR	= 0x26
+                 .equ	DT1A	= 0x25
+                 .equ	DT1B	= 0x24
+                 .equ	DTPS	= 0x23
+                 .equ	DWDR	= 0x22
+                 .equ	WDTCR	= 0x21
+                 .equ	PRR	= 0x20
+                 .equ	EEARH	= 0x1f
+                 .equ	EEARL	= 0x1e
+                 .equ	EEDR	= 0x1d
+                 .equ	EECR	= 0x1c
+                 .equ	PORTB	= 0x18
+                 .equ	DDRB	= 0x17
+                 .equ	PINB	= 0x16
+                 .equ	PCMSK	= 0x15
+                 .equ	DIDR0	= 0x14
+                 .equ	GPIOR2	= 0x13
+                 .equ	GPIOR1	= 0x12
+                 .equ	GPIOR0	= 0x11
+                 .equ	USIBR	= 0x10
+                 .equ	USIDR	= 0x0f
+                 .equ	USISR	= 0x0e
+                 .equ	USICR	= 0x0d
+                 .equ	ACSR	= 0x08
+                 .equ	ADMUX	= 0x07
+                 .equ	ADCSRA	= 0x06
+                 .equ	ADCH	= 0x05
+                 .equ	ADCL	= 0x04
+                 .equ	ADCSRB	= 0x03
+                 
+                 
+                 ; ***** BIT DEFINITIONS **************************************************
+                 
+                 ; ***** PORTB ************************
+                 ; PORTB - Data Register, Port B
+                 .equ	PORTB0	= 0	; 
+                 .equ	PB0	= 0	; For compatibility
+                 .equ	PORTB1	= 1	; 
+                 .equ	PB1	= 1	; For compatibility
+                 .equ	PORTB2	= 2	; 
+                 .equ	PB2	= 2	; For compatibility
+                 .equ	PORTB3	= 3	; 
+                 .equ	PB3	= 3	; For compatibility
+                 .equ	PORTB4	= 4	; 
+                 .equ	PB4	= 4	; For compatibility
+                 .equ	PORTB5	= 5	; 
+                 .equ	PB5	= 5	; For compatibility
+                 
+                 ; DDRB - Data Direction Register, Port B
+                 .equ	DDB0	= 0	; 
+                 .equ	DDB1	= 1	; 
+                 .equ	DDB2	= 2	; 
+                 .equ	DDB3	= 3	; 
+                 .equ	DDB4	= 4	; 
+                 .equ	DDB5	= 5	; 
+                 
+                 ; PINB - Input Pins, Port B
+                 .equ	PINB0	= 0	; 
+                 .equ	PINB1	= 1	; 
+                 .equ	PINB2	= 2	; 
+                 .equ	PINB3	= 3	; 
+                 .equ	PINB4	= 4	; 
+                 .equ	PINB5	= 5	; 
+                 
+                 
+                 ; ***** ANALOG_COMPARATOR ************
+                 ; ADCSRB - ADC Control and Status Register B
+                 .equ	ACME	= 6	; Analog Comparator Multiplexer Enable
+                 
+                 ; ACSR - Analog Comparator Control And Status Register
+                 .equ	ACIS0	= 0	; Analog Comparator Interrupt Mode Select bit 0
+                 .equ	ACIS1	= 1	; Analog Comparator Interrupt Mode Select bit 1
+                 .equ	ACIE	= 3	; Analog Comparator Interrupt Enable
+                 .equ	ACI	= 4	; Analog Comparator Interrupt Flag
+                 .equ	ACO	= 5	; Analog Compare Output
+                 .equ	ACBG	= 6	; Analog Comparator Bandgap Select
+                 .equ	AINBG	= ACBG	; For compatibility
+                 .equ	ACD	= 7	; Analog Comparator Disable
+                 
+                 ; DIDR0 - 
+                 .equ	AIN0D	= 0	; AIN0 Digital Input Disable
+                 .equ	AIN1D	= 1	; AIN1 Digital Input Disable
+                 
+                 
+                 ; ***** AD_CONVERTER *****************
+                 ; ADMUX - The ADC multiplexer Selection Register
+                 .equ	MUX0	= 0	; Analog Channel and Gain Selection Bits
+                 .equ	MUX1	= 1	; Analog Channel and Gain Selection Bits
+                 .equ	MUX2	= 2	; Analog Channel and Gain Selection Bits
+                 .equ	MUX3	= 3	; Analog Channel and Gain Selection Bits
+                 .equ	REFS2	= 4	; Reference Selection Bit 2
+                 .equ	ADLAR	= 5	; Left Adjust Result
+                 .equ	REFS0	= 6	; Reference Selection Bit 0
+                 .equ	REFS1	= 7	; Reference Selection Bit 1
+                 
+                 ; ADCSRA - The ADC Control and Status register
+                 .equ	ADPS0	= 0	; ADC  Prescaler Select Bits
+                 .equ	ADPS1	= 1	; ADC  Prescaler Select Bits
+                 .equ	ADPS2	= 2	; ADC  Prescaler Select Bits
+                 .equ	ADIE	= 3	; ADC Interrupt Enable
+                 .equ	ADIF	= 4	; ADC Interrupt Flag
+                 .equ	ADATE	= 5	; ADC Auto Trigger Enable
+                 .equ	ADSC	= 6	; ADC Start Conversion
+                 .equ	ADEN	= 7	; ADC Enable
+                 
+                 ; ADCH - ADC Data Register High Byte
+                 .equ	ADCH0	= 0	; ADC Data Register High Byte Bit 0
+                 .equ	ADCH1	= 1	; ADC Data Register High Byte Bit 1
+                 .equ	ADCH2	= 2	; ADC Data Register High Byte Bit 2
+                 .equ	ADCH3	= 3	; ADC Data Register High Byte Bit 3
+                 .equ	ADCH4	= 4	; ADC Data Register High Byte Bit 4
+                 .equ	ADCH5	= 5	; ADC Data Register High Byte Bit 5
+                 .equ	ADCH6	= 6	; ADC Data Register High Byte Bit 6
+                 .equ	ADCH7	= 7	; ADC Data Register High Byte Bit 7
+                 
+                 ; ADCL - ADC Data Register Low Byte
+                 .equ	ADCL0	= 0	; ADC Data Register Low Byte Bit 0
+                 .equ	ADCL1	= 1	; ADC Data Register Low Byte Bit 1
+                 .equ	ADCL2	= 2	; ADC Data Register Low Byte Bit 2
+                 .equ	ADCL3	= 3	; ADC Data Register Low Byte Bit 3
+                 .equ	ADCL4	= 4	; ADC Data Register Low Byte Bit 4
+                 .equ	ADCL5	= 5	; ADC Data Register Low Byte Bit 5
+                 .equ	ADCL6	= 6	; ADC Data Register Low Byte Bit 6
+                 .equ	ADCL7	= 7	; ADC Data Register Low Byte Bit 7
+                 
+                 ; ADCSRB - ADC Control and Status Register B
+                 .equ	ADTS0	= 0	; ADC Auto Trigger Source 0
+                 .equ	ADTS1	= 1	; ADC Auto Trigger Source 1
+                 .equ	ADTS2	= 2	; ADC Auto Trigger Source 2
+                 .equ	IPR	= 5	; Input Polarity Mode
+                 .equ	BIN	= 7	; Bipolar Input Mode
+                 
+                 ; DIDR0 - Digital Input Disable Register 0
+                 .equ	ADC1D	= 2	; ADC1 Digital input Disable
+                 .equ	ADC3D	= 3	; ADC3 Digital input Disable
+                 .equ	ADC2D	= 4	; ADC2 Digital input Disable
+                 .equ	ADC0D	= 5	; ADC0 Digital input Disable
+                 
+                 
+                 ; ***** USI **************************
+                 ; USIBR - USI Buffer Register
+                 .equ	USIBR0	= 0	; USI Buffer Register bit 0
+                 .equ	USIBR1	= 1	; USI Buffer Register bit 1
+                 .equ	USIBR2	= 2	; USI Buffer Register bit 2
+                 .equ	USIBR3	= 3	; USI Buffer Register bit 3
+                 .equ	USIBR4	= 4	; USI Buffer Register bit 4
+                 .equ	USIBR5	= 5	; USI Buffer Register bit 5
+                 .equ	USIBR6	= 6	; USI Buffer Register bit 6
+                 .equ	USIBR7	= 7	; USI Buffer Register bit 7
+                 
+                 ; USIDR - USI Data Register
+                 .equ	USIDR0	= 0	; USI Data Register bit 0
+                 .equ	USIDR1	= 1	; USI Data Register bit 1
+                 .equ	USIDR2	= 2	; USI Data Register bit 2
+                 .equ	USIDR3	= 3	; USI Data Register bit 3
+                 .equ	USIDR4	= 4	; USI Data Register bit 4
+                 .equ	USIDR5	= 5	; USI Data Register bit 5
+                 .equ	USIDR6	= 6	; USI Data Register bit 6
+                 .equ	USIDR7	= 7	; USI Data Register bit 7
+                 
+                 ; USISR - USI Status Register
+                 .equ	USICNT0	= 0	; USI Counter Value Bit 0
+                 .equ	USICNT1	= 1	; USI Counter Value Bit 1
+                 .equ	USICNT2	= 2	; USI Counter Value Bit 2
+                 .equ	USICNT3	= 3	; USI Counter Value Bit 3
+                 .equ	USIDC	= 4	; Data Output Collision
+                 .equ	USIPF	= 5	; Stop Condition Flag
+                 .equ	USIOIF	= 6	; Counter Overflow Interrupt Flag
+                 .equ	USISIF	= 7	; Start Condition Interrupt Flag
+                 
+                 ; USICR - USI Control Register
+                 .equ	USITC	= 0	; Toggle Clock Port Pin
+                 .equ	USICLK	= 1	; Clock Strobe
+                 .equ	USICS0	= 2	; USI Clock Source Select Bit 0
+                 .equ	USICS1	= 3	; USI Clock Source Select Bit 1
+                 .equ	USIWM0	= 4	; USI Wire Mode Bit 0
+                 .equ	USIWM1	= 5	; USI Wire Mode Bit 1
+                 .equ	USIOIE	= 6	; Counter Overflow Interrupt Enable
+                 .equ	USISIE	= 7	; Start Condition Interrupt Enable
+                 
+                 
+                 ; ***** EXTERNAL_INTERRUPT ***********
+                 ; MCUCR - MCU Control Register
+                 .equ	ISC00	= 0	; Interrupt Sense Control 0 Bit 0
+                 .equ	ISC01	= 1	; Interrupt Sense Control 0 Bit 1
+                 
+                 ; GIMSK - General Interrupt Mask Register
+                 .equ	GICR	= GIMSK	; For compatibility
+                 .equ	PCIE	= 5	; Pin Change Interrupt Enable
+                 .equ	INT0	= 6	; External Interrupt Request 0 Enable
+                 
+                 ; GIFR - General Interrupt Flag register
+                 .equ	PCIF	= 5	; Pin Change Interrupt Flag
+                 .equ	INTF0	= 6	; External Interrupt Flag 0
+                 
+                 ; PCMSK - Pin Change Enable Mask
+                 .equ	PCINT0	= 0	; Pin Change Enable Mask Bit 0
+                 .equ	PCINT1	= 1	; Pin Change Enable Mask Bit 1
+                 .equ	PCINT2	= 2	; Pin Change Enable Mask Bit 2
+                 .equ	PCINT3	= 3	; Pin Change Enable Mask Bit 3
+                 .equ	PCINT4	= 4	; Pin Change Enable Mask Bit 4
+                 .equ	PCINT5	= 5	; Pin Change Enable Mask Bit 5
+                 
+                 
+                 ; ***** EEPROM ***********************
+                 ; EEARL - EEPROM Address Register Low Byte
+                 .equ	EEAR0	= 0	; EEPROM Read/Write Access Bit 0
+                 .equ	EEAR1	= 1	; EEPROM Read/Write Access Bit 1
+                 .equ	EEAR2	= 2	; EEPROM Read/Write Access Bit 2
+                 .equ	EEAR3	= 3	; EEPROM Read/Write Access Bit 3
+                 .equ	EEAR4	= 4	; EEPROM Read/Write Access Bit 4
+                 .equ	EEAR5	= 5	; EEPROM Read/Write Access Bit 5
+                 .equ	EEAR6	= 6	; EEPROM Read/Write Access Bit 6
+                 .equ	EEAR7	= 7	; EEPROM Read/Write Access Bit 7
+                 
+                 ; EEARH - EEPROM Address Register High Byte
+                 .equ	EEAR8	= 0	; EEPROM Read/Write Access Bit 0
+                 
+                 ; EEDR - EEPROM Data Register
+                 .equ	EEDR0	= 0	; EEPROM Data Register bit 0
+                 .equ	EEDR1	= 1	; EEPROM Data Register bit 1
+                 .equ	EEDR2	= 2	; EEPROM Data Register bit 2
+                 .equ	EEDR3	= 3	; EEPROM Data Register bit 3
+                 .equ	EEDR4	= 4	; EEPROM Data Register bit 4
+                 .equ	EEDR5	= 5	; EEPROM Data Register bit 5
+                 .equ	EEDR6	= 6	; EEPROM Data Register bit 6
+                 .equ	EEDR7	= 7	; EEPROM Data Register bit 7
+                 
+                 ; EECR - EEPROM Control Register
+                 .equ	EERE	= 0	; EEPROM Read Enable
+                 .equ	EEPE	= 1	; EEPROM Write Enable
+                 .equ	EEMPE	= 2	; EEPROM Master Write Enable
+                 .equ	EERIE	= 3	; EEPROM Ready Interrupt Enable
+                 .equ	EEPM0	= 4	; EEPROM Programming Mode Bit 0
+                 .equ	EEPM1	= 5	; EEPROM Programming Mode Bit 1
+                 
+                 
+                 ; ***** WATCHDOG *********************
+                 ; WDTCR - Watchdog Timer Control Register
+                 .equ	WDTCSR	= WDTCR	; For compatibility
+                 .equ	WDP0	= 0	; Watch Dog Timer Prescaler bit 0
+                 .equ	WDP1	= 1	; Watch Dog Timer Prescaler bit 1
+                 .equ	WDP2	= 2	; Watch Dog Timer Prescaler bit 2
+                 .equ	WDE	= 3	; Watch Dog Enable
+                 .equ	WDCE	= 4	; Watchdog Change Enable
+                 .equ	WDTOE	= WDCE	; For compatibility
+                 .equ	WDP3	= 5	; Watchdog Timer Prescaler Bit 3
+                 .equ	WDIE	= 6	; Watchdog Timeout Interrupt Enable
+                 .equ	WDIF	= 7	; Watchdog Timeout Interrupt Flag
+                 
+                 
+                 ; ***** TIMER_COUNTER_0 **************
+                 ; TIMSK - Timer/Counter Interrupt Mask Register
+                 .equ	TOIE0	= 1	; Timer/Counter0 Overflow Interrupt Enable
+                 .equ	OCIE0B	= 3	; Timer/Counter0 Output Compare Match B Interrupt Enable
+                 .equ	OCIE0A	= 4	; Timer/Counter0 Output Compare Match A Interrupt Enable
+                 
+                 ; TIFR - Timer/Counter0 Interrupt Flag register
+                 .equ	TOV0	= 1	; Timer/Counter0 Overflow Flag
+                 .equ	OCF0B	= 3	; Timer/Counter0 Output Compare Flag 0B
+                 .equ	OCF0A	= 4	; Timer/Counter0 Output Compare Flag 0A
+                 
+                 ; TCCR0A - Timer/Counter  Control Register A
+                 .equ	WGM00	= 0	; Waveform Generation Mode
+                 .equ	WGM01	= 1	; Waveform Generation Mode
+                 .equ	COM0B0	= 4	; Compare Output Mode, Fast PWm
+                 .equ	COM0B1	= 5	; Compare Output Mode, Fast PWm
+                 .equ	COM0A0	= 6	; Compare Output Mode, Phase Correct PWM Mode
+                 .equ	COM0A1	= 7	; Compare Output Mode, Phase Correct PWM Mode
+                 
+                 ; TCCR0B - Timer/Counter Control Register B
+                 .equ	CS00	= 0	; Clock Select
+                 .equ	CS01	= 1	; Clock Select
+                 .equ	CS02	= 2	; Clock Select
+                 .equ	WGM02	= 3	; 
+                 .equ	FOC0B	= 6	; Force Output Compare B
+                 .equ	FOC0A	= 7	; Force Output Compare A
+                 
+                 ; TCNT0 - Timer/Counter0
+                 .equ	TCNT0_0	= 0	; 
+                 .equ	TCNT0_1	= 1	; 
+                 .equ	TCNT0_2	= 2	; 
+                 .equ	TCNT0_3	= 3	; 
+                 .equ	TCNT0_4	= 4	; 
+                 .equ	TCNT0_5	= 5	; 
+                 .equ	TCNT0_6	= 6	; 
+                 .equ	TCNT0_7	= 7	; 
+                 
+                 ; OCR0A - Timer/Counter0 Output Compare Register
+                 .equ	OCR0_0	= 0	; 
+                 .equ	OCR0_1	= 1	; 
+                 .equ	OCR0_2	= 2	; 
+                 .equ	OCR0_3	= 3	; 
+                 .equ	OCR0_4	= 4	; 
+                 .equ	OCR0_5	= 5	; 
+                 .equ	OCR0_6	= 6	; 
+                 .equ	OCR0_7	= 7	; 
+                 
+                 ; OCR0B - Timer/Counter0 Output Compare Register
+                 ;.equ	OCR0_0	= 0	; 
+                 ;.equ	OCR0_1	= 1	; 
+                 ;.equ	OCR0_2	= 2	; 
+                 ;.equ	OCR0_3	= 3	; 
+                 ;.equ	OCR0_4	= 4	; 
+                 ;.equ	OCR0_5	= 5	; 
+                 ;.equ	OCR0_6	= 6	; 
+                 ;.equ	OCR0_7	= 7	; 
+                 
+                 ; GTCCR - General Timer/Counter Control Register
+                 .equ	PSR0	= 0	; Prescaler Reset Timer/Counter1 and Timer/Counter0
+                 .equ	TSM	= 7	; Timer/Counter Synchronization Mode
+                 
+                 
+                 ; ***** TIMER_COUNTER_1 **************
+                 ; TCCR1 - Timer/Counter Control Register
+                 .equ	CS10	= 0	; Clock Select Bits
+                 .equ	CS11	= 1	; Clock Select Bits
+                 .equ	CS12	= 2	; Clock Select Bits
+                 .equ	CS13	= 3	; Clock Select Bits
+                 .equ	COM1A0	= 4	; Compare Output Mode, Bit 1
+                 .equ	COM1A1	= 5	; Compare Output Mode, Bit 0
+                 .equ	PWM1A	= 6	; Pulse Width Modulator Enable
+                 .equ	CTC1	= 7	; Clear Timer/Counter on Compare Match
+                 
+                 ; TCNT1 - Timer/Counter Register
+                 .equ	TCNT1_0	= 0	; Timer/Counter Register Bit 0
+                 .equ	TCNT1_1	= 1	; Timer/Counter Register Bit 1
+                 .equ	TCNT1_2	= 2	; Timer/Counter Register Bit 2
+                 .equ	TCNT1_3	= 3	; Timer/Counter Register Bit 3
+                 .equ	TCNT1_4	= 4	; Timer/Counter Register Bit 4
+                 .equ	TCNT1_5	= 5	; Timer/Counter Register Bit 5
+                 .equ	TCNT1_6	= 6	; Timer/Counter Register Bit 6
+                 .equ	TCNT1_7	= 7	; Timer/Counter Register Bit 7
+                 
+                 ; OCR1A - Output Compare Register
+                 .equ	OCR1A0	= 0	; Output Compare Register A Bit 0
+                 .equ	OCR1A1	= 1	; Output Compare Register A Bit 1
+                 .equ	OCR1A2	= 2	; Output Compare Register A Bit 2
+                 .equ	OCR1A3	= 3	; Output Compare Register A Bit 3
+                 .equ	OCR1A4	= 4	; Output Compare Register A Bit 4
+                 .equ	OCR1A5	= 5	; Output Compare Register A Bit 5
+                 .equ	OCR1A6	= 6	; Output Compare Register A Bit 6
+                 .equ	OCR1A7	= 7	; Output Compare Register A Bit 7
+                 
+                 ; OCR1B - Output Compare Register
+                 .equ	OCR1B0	= 0	; Output Compare Register B Bit 0
+                 .equ	OCR1B1	= 1	; Output Compare Register B Bit 1
+                 .equ	OCR1B2	= 2	; Output Compare Register B Bit 2
+                 .equ	OCR1B3	= 3	; Output Compare Register B Bit 3
+                 .equ	OCR1B4	= 4	; Output Compare Register B Bit 4
+                 .equ	OCR1B5	= 5	; Output Compare Register B Bit 5
+                 .equ	OCR1B6	= 6	; Output Compare Register B Bit 6
+                 .equ	OCR1B7	= 7	; Output Compare Register B Bit 7
+                 
+                 ; OCR1C - Output compare register
+                 .equ	OCR1C0	= 0	; 
+                 .equ	OCR1C1	= 1	; 
+                 .equ	OCR1C2	= 2	; 
+                 .equ	OCR1C3	= 3	; 
+                 .equ	OCR1C4	= 4	; 
+                 .equ	OCR1C5	= 5	; 
+                 .equ	OCR1C6	= 6	; 
+                 .equ	OCR1C7	= 7	; 
+                 
+                 ; TIMSK - Timer/Counter Interrupt Mask Register
+                 .equ	TOIE1	= 2	; Timer/Counter1 Overflow Interrupt Enable
+                 .equ	OCIE1B	= 5	; OCIE1A: Timer/Counter1 Output Compare B Interrupt Enable
+                 .equ	OCIE1A	= 6	; OCIE1A: Timer/Counter1 Output Compare Interrupt Enable
+                 
+                 ; TIFR - Timer/Counter Interrupt Flag Register
+                 .equ	TOV1	= 2	; Timer/Counter1 Overflow Flag
+                 .equ	OCF1B	= 5	; Timer/Counter1 Output Compare Flag 1B
+                 .equ	OCF1A	= 6	; Timer/Counter1 Output Compare Flag 1A
+                 
+                 ; GTCCR - Timer counter control register
+                 .equ	PSR1	= 1	; Prescaler Reset Timer/Counter1
+                 .equ	FOC1A	= 2	; Force Output Compare 1A
+                 .equ	FOC1B	= 3	; Force Output Compare Match 1B
+                 .equ	COM1B0	= 4	; Comparator B Output Mode
+                 .equ	COM1B1	= 5	; Comparator B Output Mode
+                 .equ	PWM1B	= 6	; Pulse Width Modulator B Enable
+                 
+                 ; DTPS - Dead time prescaler register
+                 .equ	DTPS0	= 0	; 
+                 .equ	DTPS1	= 1	; 
+                 
+                 ; DT1A - Dead time value register
+                 .equ	DTVL0	= 0	; 
+                 .equ	DTVL1	= 1	; 
+                 .equ	DTVL2	= 2	; 
+                 .equ	DTVL3	= 3	; 
+                 .equ	DTVH0	= 4	; 
+                 .equ	DTVH1	= 5	; 
+                 .equ	DTVH2	= 6	; 
+                 .equ	DTVH3	= 7	; 
+                 
+                 ; DT1B - Dead time value B
+                 ;.equ	DTVL0	= 0	; 
+                 ;.equ	DTVL1	= 1	; 
+                 ;.equ	DTVL2	= 2	; 
+                 ;.equ	DTVL3	= 3	; 
+                 ;.equ	DTVH0	= 4	; 
+                 ;.equ	DTVH1	= 5	; 
+                 ;.equ	DTVH2	= 6	; 
+                 ;.equ	DTVH3	= 7	; 
+                 
+                 
+                 ; ***** BOOT_LOAD ********************
+                 ; SPMCSR - Store Program Memory Control Register
+                 .equ	SPMEN	= 0	; Store Program Memory Enable
+                 .equ	PGERS	= 1	; Page Erase
+                 .equ	PGWRT	= 2	; Page Write
+                 .equ	RFLB	= 3	; Read fuse and lock bits
+                 .equ	CTPB	= 4	; Clear temporary page buffer
+                 
+                 
+                 ; ***** CPU **************************
+                 ; SREG - Status Register
+                 .equ	SREG_C	= 0	; Carry Flag
+                 .equ	SREG_Z	= 1	; Zero Flag
+                 .equ	SREG_N	= 2	; Negative Flag
+                 .equ	SREG_V	= 3	; Two's Complement Overflow Flag
+                 .equ	SREG_S	= 4	; Sign Bit
+                 .equ	SREG_H	= 5	; Half Carry Flag
+                 .equ	SREG_T	= 6	; Bit Copy Storage
+                 .equ	SREG_I	= 7	; Global Interrupt Enable
+                 
+                 ; MCUCR - MCU Control Register
+                 ;.equ	ISC00	= 0	; Interrupt Sense Control 0 bit 0
+                 ;.equ	ISC01	= 1	; Interrupt Sense Control 0 bit 1
+                 .equ	SM0	= 3	; Sleep Mode Select Bit 0
+                 .equ	SM1	= 4	; Sleep Mode Select Bit 1
+                 .equ	SE	= 5	; Sleep Enable
+                 .equ	PUD	= 6	; Pull-up Disable
+                 
+                 ; MCUSR - MCU Status register
+                 .equ	PORF	= 0	; Power-On Reset Flag
+                 .equ	EXTRF	= 1	; External Reset Flag
+                 .equ	BORF	= 2	; Brown-out Reset Flag
+                 .equ	WDRF	= 3	; Watchdog Reset Flag
+                 
+                 ; PRR - Power Reduction Register
+                 .equ	PRADC	= 0	; Power Reduction ADC
+                 .equ	PRUSI	= 1	; Power Reduction USI
+                 .equ	PRTIM0	= 2	; Power Reduction Timer/Counter0
+                 .equ	PRTIM1	= 3	; Power Reduction Timer/Counter1
+                 
+                 ; OSCCAL - Oscillator Calibration Register
+                 .equ	CAL0	= 0	; Oscillatro Calibration Value Bit 0
+                 .equ	CAL1	= 1	; Oscillatro Calibration Value Bit 1
+                 .equ	CAL2	= 2	; Oscillatro Calibration Value Bit 2
+                 .equ	CAL3	= 3	; Oscillatro Calibration Value Bit 3
+                 .equ	CAL4	= 4	; Oscillatro Calibration Value Bit 4
+                 .equ	CAL5	= 5	; Oscillatro Calibration Value Bit 5
+                 .equ	CAL6	= 6	; Oscillatro Calibration Value Bit 6
+                 .equ	CAL7	= 7	; Oscillatro Calibration Value Bit 7
+                 
+                 ; PLLCSR - PLL Control and status register
+                 .equ	PLOCK	= 0	; PLL Lock detector
+                 .equ	PLLE	= 1	; PLL Enable
+                 .equ	PCKE	= 2	; PCK Enable
+                 .equ	LSM	= 7	; Low speed mode
+                 
+                 ; CLKPR - Clock Prescale Register
+                 .equ	CLKPS0	= 0	; Clock Prescaler Select Bit 0
+                 .equ	CLKPS1	= 1	; Clock Prescaler Select Bit 1
+                 .equ	CLKPS2	= 2	; Clock Prescaler Select Bit 2
+                 .equ	CLKPS3	= 3	; Clock Prescaler Select Bit 3
+                 .equ	CLKPCE	= 7	; Clock Prescaler Change Enable
+                 
+                 ; DWDR - debugWire data register
+                 .equ	DWDR0	= 0	; 
+                 .equ	DWDR1	= 1	; 
+                 .equ	DWDR2	= 2	; 
+                 .equ	DWDR3	= 3	; 
+                 .equ	DWDR4	= 4	; 
+                 .equ	DWDR5	= 5	; 
+                 .equ	DWDR6	= 6	; 
+                 .equ	DWDR7	= 7	; 
+                 
+                 ; GPIOR2 - General Purpose IO register 2
+                 .equ	GPIOR20	= 0	; 
+                 .equ	GPIOR21	= 1	; 
+                 .equ	GPIOR22	= 2	; 
+                 .equ	GPIOR23	= 3	; 
+                 .equ	GPIOR24	= 4	; 
+                 .equ	GPIOR25	= 5	; 
+                 .equ	GPIOR26	= 6	; 
+                 .equ	GPIOR27	= 7	; 
+                 
+                 ; GPIOR1 - General Purpose register 1
+                 .equ	GPIOR10	= 0	; 
+                 .equ	GPIOR11	= 1	; 
+                 .equ	GPIOR12	= 2	; 
+                 .equ	GPIOR13	= 3	; 
+                 .equ	GPIOR14	= 4	; 
+                 .equ	GPIOR15	= 5	; 
+                 .equ	GPIOR16	= 6	; 
+                 .equ	GPIOR17	= 7	; 
+                 
+                 ; GPIOR0 - General purpose register 0
+                 .equ	GPIOR00	= 0	; 
+                 .equ	GPIOR01	= 1	; 
+                 .equ	GPIOR02	= 2	; 
+                 .equ	GPIOR03	= 3	; 
+                 .equ	GPIOR04	= 4	; 
+                 .equ	GPIOR05	= 5	; 
+                 .equ	GPIOR06	= 6	; 
+                 .equ	GPIOR07	= 7	; 
+                 
+                 
+                 
+                 ; ***** LOCKSBITS ********************************************************
+                 .equ	LB1	= 0	; Lockbit
+                 .equ	LB2	= 1	; Lockbit
+                 
+                 
+                 ; ***** FUSES ************************************************************
+                 ; LOW fuse bits
+                 .equ	CKSEL0	= 0	; Select Clock source
+                 .equ	CKSEL1	= 1	; Select Clock source
+                 .equ	CKSEL2	= 2	; Select Clock source
+                 .equ	CKSEL3	= 3	; Select Clock source
+                 .equ	SUT0	= 4	; Select start-up time
+                 .equ	SUT1	= 5	; Select start-up time
+                 .equ	CKOUT	= 6	; Clock Output Enable
+                 .equ	CKDIV8	= 7	; Divide clock by 8
+                 
+                 ; HIGH fuse bits
+                 .equ	BODLEVEL0	= 0	; Brown-out Detector trigger level
+                 .equ	BODLEVEL1	= 1	; Brown-out Detector trigger level
+                 .equ	BODLEVEL2	= 2	; Brown-out Detector trigger level
+                 .equ	EESAVE	= 3	; EEPROM memory is preserved through the Chip Erase
+                 .equ	WDTON	= 4	; Watchdog Timer always on
+                 .equ	SPIEN	= 5	; Enable Serial Program and Data Downloading
+                 .equ	DWEN	= 6	; DebugWIRE Enable
+                 .equ	RSTDISBL	= 7	; External Reset disable
+                 
+                 ; EXTENDED fuse bits
+                 .equ	SELFPRGEN	= 0	; Self-Programming Enable
+                 
+                 
+                 
+                 ; ***** CPU REGISTER DEFINITIONS *****************************************
+                 .def	XH	= r27
+                 .def	XL	= r26
+                 .def	YH	= r29
+                 .def	YL	= r28
+                 .def	ZH	= r31
+                 .def	ZL	= r30
+                 
+                 
+                 
+                 ; ***** DATA MEMORY DECLARATIONS *****************************************
+                 .equ	FLASHEND	= 0x0fff	; Note: Word address
+                 .equ	IOEND	= 0x003f
+                 .equ	SRAM_START	= 0x0060
+                 .equ	SRAM_SIZE	= 512
+                 .equ	RAMEND	= 0x025f
+                 .equ	XRAMEND	= 0x0000
+                 .equ	E2END	= 0x01ff
+                 .equ	EEPROMEND	= 0x01ff
+                 .equ	EEADRBITS	= 9
+                 #pragma AVRPART MEMORY PROG_FLASH 8192
+                 #pragma AVRPART MEMORY EEPROM 512
+                 #pragma AVRPART MEMORY INT_SRAM SIZE 512
+                 #pragma AVRPART MEMORY INT_SRAM START_ADDR 0x60
+                 
+                 
+                 
+                 ; ***** BOOTLOADER DECLARATIONS ******************************************
+                 .equ	NRWW_START_ADDR	= 0x0
+                 .equ	NRWW_STOP_ADDR	= 0xfff
+                 .equ	RWW_START_ADDR	= 0x0
+                 .equ	RWW_STOP_ADDR	= 0x0
+                 .equ	PAGESIZE	= 32
+                 
+                 
+                 
+                 ; ***** INTERRUPT VECTORS ************************************************
+                 .equ	INT0addr	= 0x0001	; External Interrupt 0
+                 .equ	PCI0addr	= 0x0002	; Pin change Interrupt Request 0
+                 .equ	OC1Aaddr	= 0x0003	; Timer/Counter1 Compare Match 1A
+                 .equ	OVF1addr	= 0x0004	; Timer/Counter1 Overflow
+                 .equ	OVF0addr	= 0x0005	; Timer/Counter0 Overflow
+                 .equ	ERDYaddr	= 0x0006	; EEPROM Ready
+                 .equ	ACIaddr	= 0x0007	; Analog comparator
+                 .equ	ADCCaddr	= 0x0008	; ADC Conversion ready
+                 .equ	OC1Baddr	= 0x0009	; Timer/Counter1 Compare Match B
+                 .equ	OC0Aaddr	= 0x000a	; Timer/Counter0 Compare Match A
+                 .equ	OC0Baddr	= 0x000b	; Timer/Counter0 Compare Match B
+                 .equ	WDTaddr	= 0x000c	; Watchdog Time-out
+                 .equ	USI_STARTaddr	= 0x000d	; USI START
+                 .equ	USI_OVFaddr	= 0x000e	; USI Overflow
+                 
+                 .equ	INT_VECTORS_SIZE	= 15	; size in words
+                 
+                 #endif  /* _TN85DEF_INC_ */
+                 
+                 ; ***** END OF FILE ******************************************************
+                 
+                  * PRESENT_sbox.asm
+                  *
+                  *  Created: 11-Jul-13 9:45:00 PM
+                  *   Author: airwizard
+                  */ 
+                 
+                   
+                  .org 0x0800
+                  //Byte address:  2 * 0x0800
+                 
+                  sbox256:
+000800 c1c0
+000801 c3c2
+000802 c5c4
+000803 c7c6
+000804 c9c8
+000805 cbca
+000806 cdcc
+000807 cfce      .db 0xC0, 0xC1, 0xC2, 0xC3, 0xC4, 0xC5, 0xC6, 0xC7, 0xC8, 0xC9, 0xCA, 0xCB, 0xCC, 0xCD, 0xCE, 0xCF
+000808 5150
+000809 5352
+00080a 5554
+00080b 5756
+00080c 5958
+00080d 5b5a
+00080e 5d5c
+00080f 5f5e      .db 0x50, 0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5A, 0x5B, 0x5C, 0x5D, 0x5E, 0x5F
+000810 6160
+000811 6362
+000812 6564
+000813 6766
+000814 6968
+000815 6b6a
+000816 6d6c
+000817 6f6e      .db 0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F
+000818 b1b0
+000819 b3b2
+00081a b5b4
+00081b b7b6
+00081c b9b8
+00081d bbba
+00081e bdbc
+00081f bfbe      .db 0xB0, 0xB1, 0xB2, 0xB3, 0xB4, 0xB5, 0xB6, 0xB7, 0xB8, 0xB9, 0xBA, 0xBB, 0xBC, 0xBD, 0xBE, 0xBF
+000820 9190
+000821 9392
+000822 9594
+000823 9796
+000824 9998
+000825 9b9a
+000826 9d9c
+000827 9f9e      .db 0x90, 0x91, 0x92, 0x93, 0x94, 0x95, 0x96, 0x97, 0x98, 0x99, 0x9A, 0x9B, 0x9C, 0x9D, 0x9E, 0x9F
+000828 0100
+000829 0302
+00082a 0504
+00082b 0706
+00082c 0908
+00082d 0b0a
+00082e 0d0c
+00082f 0f0e      .db 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
+000830 a1a0
+000831 a3a2
+000832 a5a4
+000833 a7a6
+000834 a9a8
+000835 abaa
+000836 adac
+000837 afae      .db 0xA0, 0xA1, 0xA2, 0xA3, 0xA4, 0xA5, 0xA6, 0xA7, 0xA8, 0xA9, 0xAA, 0xAB, 0xAC, 0xAD, 0xAE, 0xAF
+000838 d1d0
+000839 d3d2
+00083a d5d4
+00083b d7d6
+00083c d9d8
+00083d dbda
+00083e dddc
+00083f dfde      .db 0xD0, 0xD1, 0xD2, 0xD3, 0xD4, 0xD5, 0xD6, 0xD7, 0xD8, 0xD9, 0xDA, 0xDB, 0xDC, 0xDD, 0xDE, 0xDF
+000840 3130
+000841 3332
+000842 3534
+000843 3736
+000844 3938
+000845 3b3a
+000846 3d3c
+000847 3f3e      .db 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F
+000848 e1e0
+000849 e3e2
+00084a e5e4
+00084b e7e6
+00084c e9e8
+00084d ebea
+00084e edec
+00084f efee      .db 0xE0, 0xE1, 0xE2, 0xE3, 0xE4, 0xE5, 0xE6, 0xE7, 0xE8, 0xE9, 0xEA, 0xEB, 0xEC, 0xED, 0xEE, 0xEF
+000850 f1f0
+000851 f3f2
+000852 f5f4
+000853 f7f6
+000854 f9f8
+000855 fbfa
+000856 fdfc
+000857 fffe      .db 0xF0, 0xF1, 0xF2, 0xF3, 0xF4, 0xF5, 0xF6, 0xF7, 0xF8, 0xF9, 0xFA, 0xFB, 0xFC, 0xFD, 0xFE, 0xFF
+000858 8180
+000859 8382
+00085a 8584
+00085b 8786
+00085c 8988
+00085d 8b8a
+00085e 8d8c
+00085f 8f8e      .db 0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8A, 0x8B, 0x8C, 0x8D, 0x8E, 0x8F
+000860 4140
+000861 4342
+000862 4544
+000863 4746
+000864 4948
+000865 4b4a
+000866 4d4c
+000867 4f4e      .db 0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x4F
+000868 7170
+000869 7372
+00086a 7574
+00086b 7776
+00086c 7978
+00086d 7b7a
+00086e 7d7c
+00086f 7f7e      .db 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F
+000870 1110
+000871 1312
+000872 1514
+000873 1716
+000874 1918
+000875 1b1a
+000876 1d1c
+000877 1f1e      .db 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
+000878 2120
+000879 2322
+00087a 2524
+00087b 2726
+00087c 2928
+00087d 2b2a
+00087e 2d2c
+00087f 2f2e      .db 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F
+                 
+                 
+                 
+                 /* Start of program. */
+                  /*
+                  Here is what we found online: PRESENT sbox with 15gates
+                  Remember to update reference
+                   T1 = X2 ^ X1;
+                   T2 = X1 & T1;
+                   T3 = X0 ^ T2;
+                   *Y3 = X3 ^ T3;
+                   T2 = T1 & T3;
+                   T1 ^= (*Y3);
+                   T2 ^= X1;
+                   T4 = X3 | T2;
+                   *Y2 = T1 ^ T4;
+                   T2 ^= (~X3);
+                   *Y0 = (*Y2) ^ T2;
+                   T2 |= T1;
+                   *Y1 = T3 ^ T2;
+                 
+                   */
+                 
+                 
+                  .include "tn85def.inc"
+                 
+                 ;***** Created: 2011-02-09 12:04 ******* Source: ATtiny85.xml ************
+                 ;*************************************************************************
+                 ;* A P P L I C A T I O N   N O T E   F O R   T H E   A V R   F A M I L Y
+                 ;* 
+                 ;* Number            : AVR000
+                 ;* File Name         : "tn85def.inc"
+                 ;* Title             : Register/Bit Definitions for the ATtiny85
+                 ;* Date              : 2011-02-09
+                 ;* Version           : 2.35
+                 ;* Support E-mail    : avr@atmel.com
+                 ;* Target MCU        : ATtiny85
+                 ;* 
+                 ;* DESCRIPTION
+                 ;* When including this file in the assembly program file, all I/O register 
+                 ;* names and I/O register bit names appearing in the data book can be used.
+                 ;* In addition, the six registers forming the three data pointers X, Y and 
+                 ;* Z have been assigned names XL - ZH. Highest RAM address for Internal 
+                 ;* SRAM is also defined 
+                 ;* 
+                 ;* The Register names are represented by their hexadecimal address.
+                 ;* 
+                 ;* The Register Bit names are represented by their bit number (0-7).
+                 ;* 
+                 ;* Please observe the difference in using the bit names with instructions
+                 ;* such as "sbr"/"cbr" (set/clear bit in register) and "sbrs"/"sbrc"
+                 ;* (skip if bit in register set/cleared). The following example illustrates
+                 ;* this:
+                 ;* 
+                 ;* in    r16,PORTB             ;read PORTB latch
+                 ;* sbr   r16,(1<<PB6)+(1<<PB5) ;set PB6 and PB5 (use masks, not bit#)
+                 ;* out   PORTB,r16             ;output to PORTB
+                 ;* 
+                 ;* in    r16,TIFR              ;read the Timer Interrupt Flag Register
+                 ;* sbrc  r16,TOV0              ;test the overflow flag (use bit#)
+                 ;* rjmp  TOV0_is_set           ;jump if set
+                 ;* ...                         ;otherwise do something else
+                 ;*************************************************************************
+                 
+                 #ifndef _TN85DEF_INC_
+                 #endif  /* _TN85DEF_INC_ */
+                 
+                 ; ***** END OF FILE ******************************************************
+                  
+                  .def x0=r16
+                  .def x1=r17
+                  .def x2=r18
+                  .def x3=r19
+                 
+                  .def t1=r18
+                  .def t2=r21
+                  .def t3=r16
+                  .def t4=r20
+                 
+                  .def y0=r22
+                  .def y1=r16
+                  .def y2=r20
+                  .def y3=r23
+                 
+                  //counter
+                  .def counter=r24
+                  
+                  
+                 
+                  //Initial key is 0
+                  
+                  // [Add key initilization here if needed]
+                 
+                  .def k0=r0
+                  .def k1=r1
+                  .def k2=r2
+                  .def k3=r3
+                  .def k4=r4
+                  .def k5=r5
+                  .def k6=r6
+                  .def k7=r7
+                  .def k8=r8
+                  .def k9=r9
+                 
+                  //shifted key
+                  .def k10=r10
+                  .def k11=r11
+                 
+                  //Memory offset
+                  .def flag=r25
+                  
+                  //constant
+                  .def vff=r26
+                  
+                  .macro doit
+                  lds x0, $60
+                 lds x1, $61
+                 lds x2, $62
+                 lds x3, $63
+                 
+                 sbrc k0, 7
+                 eor x0, vff
+                 sbrc k0, 6
+                 eor x1, vff
+                 sbrc k0, 5
+                 eor x2, vff
+                 sbrc k0, 4
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $a0, y0
+                 sts $b0, y1
+                 sts $c0, y2
+                 sts $d0, y3
+                 
+                 lds x0, $64
+                 lds x1, $65
+                 lds x2, $66
+                 lds x3, $67
+                 
+                 sbrc k0, 3
+                 eor x0, vff
+                 sbrc k0, 2
+                 eor x1, vff
+                 sbrc k0, 1
+                 eor x2, vff
+                 sbrc k0, 0
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $a1, y0
+                 sts $b1, y1
+                 sts $c1, y2
+                 sts $d1, y3
+                 
+                 lds x0, $68
+                 lds x1, $69
+                 lds x2, $6a
+                 lds x3, $6b
+                 
+                 sbrc k1, 7
+                 eor x0, vff
+                 sbrc k1, 6
+                 eor x1, vff
+                 sbrc k1, 5
+                 eor x2, vff
+                 sbrc k1, 4
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $a2, y0
+                 sts $b2, y1
+                 sts $c2, y2
+                 sts $d2, y3
+                 
+                 lds x0, $6c
+                 lds x1, $6d
+                 lds x2, $6e
+                 lds x3, $6f
+                 
+                 sbrc k1, 3
+                 eor x0, vff
+                 sbrc k1, 2
+                 eor x1, vff
+                 sbrc k1, 1
+                 eor x2, vff
+                 sbrc k1, 0
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $a3, y0
+                 sts $b3, y1
+                 sts $c3, y2
+                 sts $d3, y3
+                 
+                 lds x0, $70
+                 lds x1, $71
+                 lds x2, $72
+                 lds x3, $73
+                 
+                 sbrc k2, 7
+                 eor x0, vff
+                 sbrc k2, 6
+                 eor x1, vff
+                 sbrc k2, 5
+                 eor x2, vff
+                 sbrc k2, 4
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $a4, y0
+                 sts $b4, y1
+                 sts $c4, y2
+                 sts $d4, y3
+                 
+                 lds x0, $74
+                 lds x1, $75
+                 lds x2, $76
+                 lds x3, $77
+                 
+                 sbrc k2, 3
+                 eor x0, vff
+                 sbrc k2, 2
+                 eor x1, vff
+                 sbrc k2, 1
+                 eor x2, vff
+                 sbrc k2, 0
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $a5, y0
+                 sts $b5, y1
+                 sts $c5, y2
+                 sts $d5, y3
+                 
+                 lds x0, $78
+                 lds x1, $79
+                 lds x2, $7a
+                 lds x3, $7b
+                 
+                 sbrc k3, 7
+                 eor x0, vff
+                 sbrc k3, 6
+                 eor x1, vff
+                 sbrc k3, 5
+                 eor x2, vff
+                 sbrc k3, 4
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $a6, y0
+                 sts $b6, y1
+                 sts $c6, y2
+                 sts $d6, y3
+                 
+                 lds x0, $7c
+                 lds x1, $7d
+                 lds x2, $7e
+                 lds x3, $7f
+                 
+                 sbrc k3, 3
+                 eor x0, vff
+                 sbrc k3, 2
+                 eor x1, vff
+                 sbrc k3, 1
+                 eor x2, vff
+                 sbrc k3, 0
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $a7, y0
+                 sts $b7, y1
+                 sts $c7, y2
+                 sts $d7, y3
+                 
+                 lds x0, $80
+                 lds x1, $81
+                 lds x2, $82
+                 lds x3, $83
+                 
+                 sbrc k4, 7
+                 eor x0, vff
+                 sbrc k4, 6
+                 eor x1, vff
+                 sbrc k4, 5
+                 eor x2, vff
+                 sbrc k4, 4
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $a8, y0
+                 sts $b8, y1
+                 sts $c8, y2
+                 sts $d8, y3
+                 
+                 lds x0, $84
+                 lds x1, $85
+                 lds x2, $86
+                 lds x3, $87
+                 
+                 sbrc k4, 3
+                 eor x0, vff
+                 sbrc k4, 2
+                 eor x1, vff
+                 sbrc k4, 1
+                 eor x2, vff
+                 sbrc k4, 0
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $a9, y0
+                 sts $b9, y1
+                 sts $c9, y2
+                 sts $d9, y3
+                 
+                 lds x0, $88
+                 lds x1, $89
+                 lds x2, $8a
+                 lds x3, $8b
+                 
+                 sbrc k5, 7
+                 eor x0, vff
+                 sbrc k5, 6
+                 eor x1, vff
+                 sbrc k5, 5
+                 eor x2, vff
+                 sbrc k5, 4
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $aa, y0
+                 sts $ba, y1
+                 sts $ca, y2
+                 sts $da, y3
+                 
+                 lds x0, $8c
+                 lds x1, $8d
+                 lds x2, $8e
+                 lds x3, $8f
+                 
+                 sbrc k5, 3
+                 eor x0, vff
+                 sbrc k5, 2
+                 eor x1, vff
+                 sbrc k5, 1
+                 eor x2, vff
+                 sbrc k5, 0
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $ab, y0
+                 sts $bb, y1
+                 sts $cb, y2
+                 sts $db, y3
+                 
+                 lds x0, $90
+                 lds x1, $91
+                 lds x2, $92
+                 lds x3, $93
+                 
+                 sbrc k6, 7
+                 eor x0, vff
+                 sbrc k6, 6
+                 eor x1, vff
+                 sbrc k6, 5
+                 eor x2, vff
+                 sbrc k6, 4
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $ac, y0
+                 sts $bc, y1
+                 sts $cc, y2
+                 sts $dc, y3
+                 
+                 lds x0, $94
+                 lds x1, $95
+                 lds x2, $96
+                 lds x3, $97
+                 
+                 sbrc k6, 3
+                 eor x0, vff
+                 sbrc k6, 2
+                 eor x1, vff
+                 sbrc k6, 1
+                 eor x2, vff
+                 sbrc k6, 0
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $ad, y0
+                 sts $bd, y1
+                 sts $cd, y2
+                 sts $dd, y3
+                 
+                 lds x0, $98
+                 lds x1, $99
+                 lds x2, $9a
+                 lds x3, $9b
+                 
+                 sbrc k7, 7
+                 eor x0, vff
+                 sbrc k7, 6
+                 eor x1, vff
+                 sbrc k7, 5
+                 eor x2, vff
+                 sbrc k7, 4
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $ae, y0
+                 sts $be, y1
+                 sts $ce, y2
+                 sts $de, y3
+                 
+                 lds x0, $9c
+                 lds x1, $9d
+                 lds x2, $9e
+                 lds x3, $9f
+                 
+                 sbrc k7, 3
+                 eor x0, vff
+                 sbrc k7, 2
+                 eor x1, vff
+                 sbrc k7, 1
+                 eor x2, vff
+                 sbrc k7, 0
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $af, y0
+                 sts $bf, y1
+                 sts $cf, y2
+                 sts $df, y3
+                 
+                 
+                 
+                  .endmacro
+                 
+                  .macro doitagain
+                  lds x0, $a0
+                 lds x1, $a1
+                 lds x2, $a2
+                 lds x3, $a3
+                 
+                 sbrc k0, 7
+                 eor x0, vff
+                 sbrc k0, 6
+                 eor x1, vff
+                 sbrc k0, 5
+                 eor x2, vff
+                 sbrc k0, 4
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $60, y0
+                 sts $70, y1
+                 sts $80, y2
+                 sts $90, y3
+                 
+                 lds x0, $a4
+                 lds x1, $a5
+                 lds x2, $a6
+                 lds x3, $a7
+                 
+                 sbrc k0, 3
+                 eor x0, vff
+                 sbrc k0, 2
+                 eor x1, vff
+                 sbrc k0, 1
+                 eor x2, vff
+                 sbrc k0, 0
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $61, y0
+                 sts $71, y1
+                 sts $81, y2
+                 sts $91, y3
+                 
+                 lds x0, $a8
+                 lds x1, $a9
+                 lds x2, $aa
+                 lds x3, $ab
+                 
+                 sbrc k1, 7
+                 eor x0, vff
+                 sbrc k1, 6
+                 eor x1, vff
+                 sbrc k1, 5
+                 eor x2, vff
+                 sbrc k1, 4
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $62, y0
+                 sts $72, y1
+                 sts $82, y2
+                 sts $92, y3
+                 
+                 lds x0, $ac
+                 lds x1, $ad
+                 lds x2, $ae
+                 lds x3, $af
+                 
+                 sbrc k1, 3
+                 eor x0, vff
+                 sbrc k1, 2
+                 eor x1, vff
+                 sbrc k1, 1
+                 eor x2, vff
+                 sbrc k1, 0
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $63, y0
+                 sts $73, y1
+                 sts $83, y2
+                 sts $93, y3
+                 
+                 lds x0, $b0
+                 lds x1, $b1
+                 lds x2, $b2
+                 lds x3, $b3
+                 
+                 sbrc k2, 7
+                 eor x0, vff
+                 sbrc k2, 6
+                 eor x1, vff
+                 sbrc k2, 5
+                 eor x2, vff
+                 sbrc k2, 4
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $64, y0
+                 sts $74, y1
+                 sts $84, y2
+                 sts $94, y3
+                 
+                 lds x0, $b4
+                 lds x1, $b5
+                 lds x2, $b6
+                 lds x3, $b7
+                 
+                 sbrc k2, 3
+                 eor x0, vff
+                 sbrc k2, 2
+                 eor x1, vff
+                 sbrc k2, 1
+                 eor x2, vff
+                 sbrc k2, 0
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $65, y0
+                 sts $75, y1
+                 sts $85, y2
+                 sts $95, y3
+                 
+                 lds x0, $b8
+                 lds x1, $b9
+                 lds x2, $ba
+                 lds x3, $bb
+                 
+                 sbrc k3, 7
+                 eor x0, vff
+                 sbrc k3, 6
+                 eor x1, vff
+                 sbrc k3, 5
+                 eor x2, vff
+                 sbrc k3, 4
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $66, y0
+                 sts $76, y1
+                 sts $86, y2
+                 sts $96, y3
+                 
+                 lds x0, $bc
+                 lds x1, $bd
+                 lds x2, $be
+                 lds x3, $bf
+                 
+                 sbrc k3, 3
+                 eor x0, vff
+                 sbrc k3, 2
+                 eor x1, vff
+                 sbrc k3, 1
+                 eor x2, vff
+                 sbrc k3, 0
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $67, y0
+                 sts $77, y1
+                 sts $87, y2
+                 sts $97, y3
+                 
+                 lds x0, $c0
+                 lds x1, $c1
+                 lds x2, $c2
+                 lds x3, $c3
+                 
+                 sbrc k4, 7
+                 eor x0, vff
+                 sbrc k4, 6
+                 eor x1, vff
+                 sbrc k4, 5
+                 eor x2, vff
+                 sbrc k4, 4
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $68, y0
+                 sts $78, y1
+                 sts $88, y2
+                 sts $98, y3
+                 
+                 lds x0, $c4
+                 lds x1, $c5
+                 lds x2, $c6
+                 lds x3, $c7
+                 
+                 sbrc k4, 3
+                 eor x0, vff
+                 sbrc k4, 2
+                 eor x1, vff
+                 sbrc k4, 1
+                 eor x2, vff
+                 sbrc k4, 0
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $69, y0
+                 sts $79, y1
+                 sts $89, y2
+                 sts $99, y3
+                 
+                 lds x0, $c8
+                 lds x1, $c9
+                 lds x2, $ca
+                 lds x3, $cb
+                 
+                 sbrc k5, 7
+                 eor x0, vff
+                 sbrc k5, 6
+                 eor x1, vff
+                 sbrc k5, 5
+                 eor x2, vff
+                 sbrc k5, 4
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $6a, y0
+                 sts $7a, y1
+                 sts $8a, y2
+                 sts $9a, y3
+                 
+                 lds x0, $cc
+                 lds x1, $cd
+                 lds x2, $ce
+                 lds x3, $cf
+                 
+                 sbrc k5, 3
+                 eor x0, vff
+                 sbrc k5, 2
+                 eor x1, vff
+                 sbrc k5, 1
+                 eor x2, vff
+                 sbrc k5, 0
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $6b, y0
+                 sts $7b, y1
+                 sts $8b, y2
+                 sts $9b, y3
+                 
+                 lds x0, $d0
+                 lds x1, $d1
+                 lds x2, $d2
+                 lds x3, $d3
+                 
+                 sbrc k6, 7
+                 eor x0, vff
+                 sbrc k6, 6
+                 eor x1, vff
+                 sbrc k6, 5
+                 eor x2, vff
+                 sbrc k6, 4
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $6c, y0
+                 sts $7c, y1
+                 sts $8c, y2
+                 sts $9c, y3
+                 
+                 lds x0, $d4
+                 lds x1, $d5
+                 lds x2, $d6
+                 lds x3, $d7
+                 
+                 sbrc k6, 3
+                 eor x0, vff
+                 sbrc k6, 2
+                 eor x1, vff
+                 sbrc k6, 1
+                 eor x2, vff
+                 sbrc k6, 0
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $6d, y0
+                 sts $7d, y1
+                 sts $8d, y2
+                 sts $9d, y3
+                 
+                 lds x0, $d8
+                 lds x1, $d9
+                 lds x2, $da
+                 lds x3, $db
+                 
+                 sbrc k7, 7
+                 eor x0, vff
+                 sbrc k7, 6
+                 eor x1, vff
+                 sbrc k7, 5
+                 eor x2, vff
+                 sbrc k7, 4
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $6e, y0
+                 sts $7e, y1
+                 sts $8e, y2
+                 sts $9e, y3
+                 
+                 lds x0, $dc
+                 lds x1, $dd
+                 lds x2, $de
+                 lds x3, $df
+                 
+                 sbrc k7, 3
+                 eor x0, vff
+                 sbrc k7, 2
+                 eor x1, vff
+                 sbrc k7, 1
+                 eor x2, vff
+                 sbrc k7, 0
+                 eor x3, vff
+                 
+                 eor t1,x1
+                 mov t2,x1
+                 and t2,t1
+                 eor t3,t2
+                 mov y3,x3
+                 eor y3,t3
+                 mov t2,t1
+                 and t2,t3
+                 eor t1,y3
+                 eor t2,x1
+                 mov t4,x3
+                 or t4,t2
+                 eor y2,t1
+                 com x3
+                 eor t2,x3
+                 mov y0,y2
+                 eor y0,t2
+                 or t2,t1
+                 eor t3,t2
+                 
+                 sts $6f, y0
+                 sts $7f, y1
+                 sts $8f, y2
+                 sts $9f, y3
+                  .endmacro
+                 
+                  .macro update
+                 
+                  inc counter /* Increase counter */
+                 
+                  /* Key XOR counter */
+                  lsl counter
+                  lsl counter
+                  eor k5,counter
+                  lsr counter
+                  lsr counter
+                 
+                  /* 61 rotations to left = 19 rotations to the right = 2*(8bit moves) +
+                     3 bit rotation right */
+                 
+                 
+                 /* 2*8 bit rotation is done easily with mov */
+                 mov k11,k9
+                 mov k10,k8
+                 /* key is stored in k2, k3, ... ,k11 */
+                 
+                 /* Perform 3 rotations to the right */
+                 
+                 /* 1st rotation */
+                 /* clear k1 which will work as a temp */
+                 eor k8,k8
+                 
+                 lsr k10
+                 ror k11
+                 ror k0
+                 ror k1
+                 ror k2
+                 ror k3
+                 ror k4
+                 ror k5
+                 ror k6
+                 ror k7
+                 
+                 ror k8
+                 or k10,k8
+                 
+                 /*2nd rot*/
+                 eor k8,k8
+                 
+                 lsr k10
+                 ror k11
+                 ror k0
+                 ror k1
+                 ror k2
+                 ror k3
+                 ror k4
+                 ror k5
+                 ror k6
+                 ror k7
+                 
+                 ror k8
+                 or k10,k8
+                 
+                 /*3rd rot*/
+                 eor k8,k8
+                 
+                 lsr k10
+                 ror k11
+                 ror k0
+                 ror k1
+                 ror k2
+                 ror k3
+                 ror k4
+                 ror k5
+                 ror k6
+                 ror k7
+                 
+                 ror k8
+                 or k10,k8
+                 
+                 
+                 
+                 /* key is stored in k2, k3, ... ,k11. I should probably move it back to k0,k1,k2,....,k9 */
+                 mov k9,k7
+                 mov k8,k6
+                 mov k7,k5
+                 mov k6,k4
+                 mov k5,k3
+                 mov k4,k2
+                 mov k3,k1
+                 mov k2,k0
+                 mov k1,k11
+                 mov k0,k10
+                 
+                 /* SBox on key bits 76,77,78,79 i.e. high part of register r11 (k11) */
+                 
+                 ldi ZH, high(2*sbox256)
+                 mov ZL,k0
+                 lpm k0,Z
+                 
+                 .endmacro
+                 
+                  .org 0x00
+                 //[initialize counter to zero]
+000000 2788      eor counter,counter
+000001 efaf      ldi vff,0xff
+                 
+                 
+                 //testing values for key
+                 
+                 
+000002 e000      ldi r16,0
+000003 2e00      mov k0,r16
+000004 e000      ldi r16,0
+000005 2e10      mov k1,r16
+000006 e000      ldi r16,0
+000007 2e20      mov k2,r16
+000008 e000      ldi r16,0
+000009 2e30      mov k3,r16
+00000a e000      ldi r16,0
+00000b 2e40      mov k4,r16
+00000c e000      ldi r16,0
+00000d 2e50      mov k5,r16
+00000e e000      ldi r16,0
+00000f 2e60      mov k6,r16
+000010 e000      ldi r16,0
+000011 2e70      mov k7,r16
+000012 e000      ldi r16,0
+000013 2e80      mov k8,r16
+000014 e000      ldi r16,0
+000015 2e90      mov k9,r16 
+                 
+000016 e000      ldi r16,0
+                 
+                 
+                 
+                   
+                 LOOP_BEGINNING:
+                  //++++++++++++++++++++ SP NETWORK 1++++++++++++++++++++++++++++
+000017 9100 0060
+000019 9110 0061
+00001b 9120 0062
+00001d 9130 0063
+00001f fc07
+000020 270a
+000021 fc06
+000022 271a
+000023 fc05
+000024 272a
+000025 fc04
+000026 273a
+000027 2721
+000028 2f51
+000029 2352
+00002a 2705
+00002b 2f73
+00002c 2770
+00002d 2f52
+00002e 2350
+00002f 2727
+000030 2751
+000031 2f43
+000032 2b45
+000033 2742
+000034 9530
+000035 2753
+000036 2f64
+000037 2765
+000038 2b52
+000039 2705
+00003a 9360 00a0
+00003c 9300 00b0
+00003e 9340 00c0
+000040 9370 00d0
+000042 9100 0064
+000044 9110 0065
+000046 9120 0066
+000048 9130 0067
+00004a fc03
+00004b 270a
+00004c fc02
+00004d 271a
+00004e fc01
+00004f 272a
+000050 fc00
+000051 273a
+000052 2721
+000053 2f51
+000054 2352
+000055 2705
+000056 2f73
+000057 2770
+000058 2f52
+000059 2350
+00005a 2727
+00005b 2751
+00005c 2f43
+00005d 2b45
+00005e 2742
+00005f 9530
+000060 2753
+000061 2f64
+000062 2765
+000063 2b52
+000064 2705
+000065 9360 00a1
+000067 9300 00b1
+000069 9340 00c1
+00006b 9370 00d1
+00006d 9100 0068
+00006f 9110 0069
+000071 9120 006a
+000073 9130 006b
+000075 fc17
+000076 270a
+000077 fc16
+000078 271a
+000079 fc15
+00007a 272a
+00007b fc14
+00007c 273a
+00007d 2721
+00007e 2f51
+00007f 2352
+000080 2705
+000081 2f73
+000082 2770
+000083 2f52
+000084 2350
+000085 2727
+000086 2751
+000087 2f43
+000088 2b45
+000089 2742
+00008a 9530
+00008b 2753
+00008c 2f64
+00008d 2765
+00008e 2b52
+00008f 2705
+000090 9360 00a2
+000092 9300 00b2
+000094 9340 00c2
+000096 9370 00d2
+000098 9100 006c
+00009a 9110 006d
+00009c 9120 006e
+00009e 9130 006f
+0000a0 fc13
+0000a1 270a
+0000a2 fc12
+0000a3 271a
+0000a4 fc11
+0000a5 272a
+0000a6 fc10
+0000a7 273a
+0000a8 2721
+0000a9 2f51
+0000aa 2352
+0000ab 2705
+0000ac 2f73
+0000ad 2770
+0000ae 2f52
+0000af 2350
+0000b0 2727
+0000b1 2751
+0000b2 2f43
+0000b3 2b45
+0000b4 2742
+0000b5 9530
+0000b6 2753
+0000b7 2f64
+0000b8 2765
+0000b9 2b52
+0000ba 2705
+0000bb 9360 00a3
+0000bd 9300 00b3
+0000bf 9340 00c3
+0000c1 9370 00d3
+0000c3 9100 0070
+0000c5 9110 0071
+0000c7 9120 0072
+0000c9 9130 0073
+0000cb fc27
+0000cc 270a
+0000cd fc26
+0000ce 271a
+0000cf fc25
+0000d0 272a
+0000d1 fc24
+0000d2 273a
+0000d3 2721
+0000d4 2f51
+0000d5 2352
+0000d6 2705
+0000d7 2f73
+0000d8 2770
+0000d9 2f52
+0000da 2350
+0000db 2727
+0000dc 2751
+0000dd 2f43
+0000de 2b45
+0000df 2742
+0000e0 9530
+0000e1 2753
+0000e2 2f64
+0000e3 2765
+0000e4 2b52
+0000e5 2705
+0000e6 9360 00a4
+0000e8 9300 00b4
+0000ea 9340 00c4
+0000ec 9370 00d4
+0000ee 9100 0074
+0000f0 9110 0075
+0000f2 9120 0076
+0000f4 9130 0077
+0000f6 fc23
+0000f7 270a
+0000f8 fc22
+0000f9 271a
+0000fa fc21
+0000fb 272a
+0000fc fc20
+0000fd 273a
+0000fe 2721
+0000ff 2f51
+000100 2352
+000101 2705
+000102 2f73
+000103 2770
+000104 2f52
+000105 2350
+000106 2727
+000107 2751
+000108 2f43
+000109 2b45
+00010a 2742
+00010b 9530
+00010c 2753
+00010d 2f64
+00010e 2765
+00010f 2b52
+000110 2705
+000111 9360 00a5
+000113 9300 00b5
+000115 9340 00c5
+000117 9370 00d5
+000119 9100 0078
+00011b 9110 0079
+00011d 9120 007a
+00011f 9130 007b
+000121 fc37
+000122 270a
+000123 fc36
+000124 271a
+000125 fc35
+000126 272a
+000127 fc34
+000128 273a
+000129 2721
+00012a 2f51
+00012b 2352
+00012c 2705
+00012d 2f73
+00012e 2770
+00012f 2f52
+000130 2350
+000131 2727
+000132 2751
+000133 2f43
+000134 2b45
+000135 2742
+000136 9530
+000137 2753
+000138 2f64
+000139 2765
+00013a 2b52
+00013b 2705
+00013c 9360 00a6
+00013e 9300 00b6
+000140 9340 00c6
+000142 9370 00d6
+000144 9100 007c
+000146 9110 007d
+000148 9120 007e
+00014a 9130 007f
+00014c fc33
+00014d 270a
+00014e fc32
+00014f 271a
+000150 fc31
+000151 272a
+000152 fc30
+000153 273a
+000154 2721
+000155 2f51
+000156 2352
+000157 2705
+000158 2f73
+000159 2770
+00015a 2f52
+00015b 2350
+00015c 2727
+00015d 2751
+00015e 2f43
+00015f 2b45
+000160 2742
+000161 9530
+000162 2753
+000163 2f64
+000164 2765
+000165 2b52
+000166 2705
+000167 9360 00a7
+000169 9300 00b7
+00016b 9340 00c7
+00016d 9370 00d7
+00016f 9100 0080
+000171 9110 0081
+000173 9120 0082
+000175 9130 0083
+000177 fc47
+000178 270a
+000179 fc46
+00017a 271a
+00017b fc45
+00017c 272a
+00017d fc44
+00017e 273a
+00017f 2721
+000180 2f51
+000181 2352
+000182 2705
+000183 2f73
+000184 2770
+000185 2f52
+000186 2350
+000187 2727
+000188 2751
+000189 2f43
+00018a 2b45
+00018b 2742
+00018c 9530
+00018d 2753
+00018e 2f64
+00018f 2765
+000190 2b52
+000191 2705
+000192 9360 00a8
+000194 9300 00b8
+000196 9340 00c8
+000198 9370 00d8
+00019a 9100 0084
+00019c 9110 0085
+00019e 9120 0086
+0001a0 9130 0087
+0001a2 fc43
+0001a3 270a
+0001a4 fc42
+0001a5 271a
+0001a6 fc41
+0001a7 272a
+0001a8 fc40
+0001a9 273a
+0001aa 2721
+0001ab 2f51
+0001ac 2352
+0001ad 2705
+0001ae 2f73
+0001af 2770
+0001b0 2f52
+0001b1 2350
+0001b2 2727
+0001b3 2751
+0001b4 2f43
+0001b5 2b45
+0001b6 2742
+0001b7 9530
+0001b8 2753
+0001b9 2f64
+0001ba 2765
+0001bb 2b52
+0001bc 2705
+0001bd 9360 00a9
+0001bf 9300 00b9
+0001c1 9340 00c9
+0001c3 9370 00d9
+0001c5 9100 0088
+0001c7 9110 0089
+0001c9 9120 008a
+0001cb 9130 008b
+0001cd fc57
+0001ce 270a
+0001cf fc56
+0001d0 271a
+0001d1 fc55
+0001d2 272a
+0001d3 fc54
+0001d4 273a
+0001d5 2721
+0001d6 2f51
+0001d7 2352
+0001d8 2705
+0001d9 2f73
+0001da 2770
+0001db 2f52
+0001dc 2350
+0001dd 2727
+0001de 2751
+0001df 2f43
+0001e0 2b45
+0001e1 2742
+0001e2 9530
+0001e3 2753
+0001e4 2f64
+0001e5 2765
+0001e6 2b52
+0001e7 2705
+0001e8 9360 00aa
+0001ea 9300 00ba
+0001ec 9340 00ca
+0001ee 9370 00da
+0001f0 9100 008c
+0001f2 9110 008d
+0001f4 9120 008e
+0001f6 9130 008f
+0001f8 fc53
+0001f9 270a
+0001fa fc52
+0001fb 271a
+0001fc fc51
+0001fd 272a
+0001fe fc50
+0001ff 273a
+000200 2721
+000201 2f51
+000202 2352
+000203 2705
+000204 2f73
+000205 2770
+000206 2f52
+000207 2350
+000208 2727
+000209 2751
+00020a 2f43
+00020b 2b45
+00020c 2742
+00020d 9530
+00020e 2753
+00020f 2f64
+000210 2765
+000211 2b52
+000212 2705
+000213 9360 00ab
+000215 9300 00bb
+000217 9340 00cb
+000219 9370 00db
+00021b 9100 0090
+00021d 9110 0091
+00021f 9120 0092
+000221 9130 0093
+000223 fc67
+000224 270a
+000225 fc66
+000226 271a
+000227 fc65
+000228 272a
+000229 fc64
+00022a 273a
+00022b 2721
+00022c 2f51
+00022d 2352
+00022e 2705
+00022f 2f73
+000230 2770
+000231 2f52
+000232 2350
+000233 2727
+000234 2751
+000235 2f43
+000236 2b45
+000237 2742
+000238 9530
+000239 2753
+00023a 2f64
+00023b 2765
+00023c 2b52
+00023d 2705
+00023e 9360 00ac
+000240 9300 00bc
+000242 9340 00cc
+000244 9370 00dc
+000246 9100 0094
+000248 9110 0095
+00024a 9120 0096
+00024c 9130 0097
+00024e fc63
+00024f 270a
+000250 fc62
+000251 271a
+000252 fc61
+000253 272a
+000254 fc60
+000255 273a
+000256 2721
+000257 2f51
+000258 2352
+000259 2705
+00025a 2f73
+00025b 2770
+00025c 2f52
+00025d 2350
+00025e 2727
+00025f 2751
+000260 2f43
+000261 2b45
+000262 2742
+000263 9530
+000264 2753
+000265 2f64
+000266 2765
+000267 2b52
+000268 2705
+000269 9360 00ad
+00026b 9300 00bd
+00026d 9340 00cd
+00026f 9370 00dd
+000271 9100 0098
+000273 9110 0099
+000275 9120 009a
+000277 9130 009b
+000279 fc77
+00027a 270a
+00027b fc76
+00027c 271a
+00027d fc75
+00027e 272a
+00027f fc74
+000280 273a
+000281 2721
+000282 2f51
+000283 2352
+000284 2705
+000285 2f73
+000286 2770
+000287 2f52
+000288 2350
+000289 2727
+00028a 2751
+00028b 2f43
+00028c 2b45
+00028d 2742
+00028e 9530
+00028f 2753
+000290 2f64
+000291 2765
+000292 2b52
+000293 2705
+000294 9360 00ae
+000296 9300 00be
+000298 9340 00ce
+00029a 9370 00de
+00029c 9100 009c
+00029e 9110 009d
+0002a0 9120 009e
+0002a2 9130 009f
+0002a4 fc73
+0002a5 270a
+0002a6 fc72
+0002a7 271a
+0002a8 fc71
+0002a9 272a
+0002aa fc70
+0002ab 273a
+0002ac 2721
+0002ad 2f51
+0002ae 2352
+0002af 2705
+0002b0 2f73
+0002b1 2770
+0002b2 2f52
+0002b3 2350
+0002b4 2727
+0002b5 2751
+0002b6 2f43
+0002b7 2b45
+0002b8 2742
+0002b9 9530
+0002ba 2753
+0002bb 2f64
+0002bc 2765
+0002bd 2b52
+0002be 2705
+0002bf 9360 00af
+0002c1 9300 00bf
+0002c3 9340 00cf
+0002c5 9370 00df doit
+                 //+++++++++++++++++++++ END OF SP NETWORK 1+++++++++++++++++++++
+                 
+                 
+                 
+                 //+++++++++++++++++++++++++ KEY UPDATE 1 +++++++++++++++++++++++++++++
+0002c7 9583
+0002c8 0f88
+0002c9 0f88
+0002ca 2658
+0002cb 9586
+0002cc 9586
+0002cd 2cb9
+0002ce 2ca8
+0002cf 2488
+0002d0 94a6
+0002d1 94b7
+0002d2 9407
+0002d3 9417
+0002d4 9427
+0002d5 9437
+0002d6 9447
+0002d7 9457
+0002d8 9467
+0002d9 9477
+0002da 9487
+0002db 28a8
+0002dc 2488
+0002dd 94a6
+0002de 94b7
+0002df 9407
+0002e0 9417
+0002e1 9427
+0002e2 9437
+0002e3 9447
+0002e4 9457
+0002e5 9467
+0002e6 9477
+0002e7 9487
+0002e8 28a8
+0002e9 2488
+0002ea 94a6
+0002eb 94b7
+0002ec 9407
+0002ed 9417
+0002ee 9427
+0002ef 9437
+0002f0 9447
+0002f1 9457
+0002f2 9467
+0002f3 9477
+0002f4 9487
+0002f5 28a8
+0002f6 2c97
+0002f7 2c86
+0002f8 2c75
+0002f9 2c64
+0002fa 2c53
+0002fb 2c42
+0002fc 2c31
+0002fd 2c20
+0002fe 2c1b
+0002ff 2c0a
+000300 e1f0
+000301 2de0
+000302 9004      update
+                 //+++++++++++++++++++++++++ END OF KEY UPDATE 1 ++++++++++++++++++++++
+                 
+000303 318f      cpi counter, 0x1F
+000304 f409      brne NOTYET
+000305 c2ed      rjmp END
+                 NOTYET:
+                 
+                 
+                  //++++++++++++++++++++ SP NETWORK 2++++++++++++++++++++++++++++
+000306 9100 00a0
+000308 9110 00a1
+00030a 9120 00a2
+00030c 9130 00a3
+00030e fc07
+00030f 270a
+000310 fc06
+000311 271a
+000312 fc05
+000313 272a
+000314 fc04
+000315 273a
+000316 2721
+000317 2f51
+000318 2352
+000319 2705
+00031a 2f73
+00031b 2770
+00031c 2f52
+00031d 2350
+00031e 2727
+00031f 2751
+000320 2f43
+000321 2b45
+000322 2742
+000323 9530
+000324 2753
+000325 2f64
+000326 2765
+000327 2b52
+000328 2705
+000329 9360 0060
+00032b 9300 0070
+00032d 9340 0080
+00032f 9370 0090
+000331 9100 00a4
+000333 9110 00a5
+000335 9120 00a6
+000337 9130 00a7
+000339 fc03
+00033a 270a
+00033b fc02
+00033c 271a
+00033d fc01
+00033e 272a
+00033f fc00
+000340 273a
+000341 2721
+000342 2f51
+000343 2352
+000344 2705
+000345 2f73
+000346 2770
+000347 2f52
+000348 2350
+000349 2727
+00034a 2751
+00034b 2f43
+00034c 2b45
+00034d 2742
+00034e 9530
+00034f 2753
+000350 2f64
+000351 2765
+000352 2b52
+000353 2705
+000354 9360 0061
+000356 9300 0071
+000358 9340 0081
+00035a 9370 0091
+00035c 9100 00a8
+00035e 9110 00a9
+000360 9120 00aa
+000362 9130 00ab
+000364 fc17
+000365 270a
+000366 fc16
+000367 271a
+000368 fc15
+000369 272a
+00036a fc14
+00036b 273a
+00036c 2721
+00036d 2f51
+00036e 2352
+00036f 2705
+000370 2f73
+000371 2770
+000372 2f52
+000373 2350
+000374 2727
+000375 2751
+000376 2f43
+000377 2b45
+000378 2742
+000379 9530
+00037a 2753
+00037b 2f64
+00037c 2765
+00037d 2b52
+00037e 2705
+00037f 9360 0062
+000381 9300 0072
+000383 9340 0082
+000385 9370 0092
+000387 9100 00ac
+000389 9110 00ad
+00038b 9120 00ae
+00038d 9130 00af
+00038f fc13
+000390 270a
+000391 fc12
+000392 271a
+000393 fc11
+000394 272a
+000395 fc10
+000396 273a
+000397 2721
+000398 2f51
+000399 2352
+00039a 2705
+00039b 2f73
+00039c 2770
+00039d 2f52
+00039e 2350
+00039f 2727
+0003a0 2751
+0003a1 2f43
+0003a2 2b45
+0003a3 2742
+0003a4 9530
+0003a5 2753
+0003a6 2f64
+0003a7 2765
+0003a8 2b52
+0003a9 2705
+0003aa 9360 0063
+0003ac 9300 0073
+0003ae 9340 0083
+0003b0 9370 0093
+0003b2 9100 00b0
+0003b4 9110 00b1
+0003b6 9120 00b2
+0003b8 9130 00b3
+0003ba fc27
+0003bb 270a
+0003bc fc26
+0003bd 271a
+0003be fc25
+0003bf 272a
+0003c0 fc24
+0003c1 273a
+0003c2 2721
+0003c3 2f51
+0003c4 2352
+0003c5 2705
+0003c6 2f73
+0003c7 2770
+0003c8 2f52
+0003c9 2350
+0003ca 2727
+0003cb 2751
+0003cc 2f43
+0003cd 2b45
+0003ce 2742
+0003cf 9530
+0003d0 2753
+0003d1 2f64
+0003d2 2765
+0003d3 2b52
+0003d4 2705
+0003d5 9360 0064
+0003d7 9300 0074
+0003d9 9340 0084
+0003db 9370 0094
+0003dd 9100 00b4
+0003df 9110 00b5
+0003e1 9120 00b6
+0003e3 9130 00b7
+0003e5 fc23
+0003e6 270a
+0003e7 fc22
+0003e8 271a
+0003e9 fc21
+0003ea 272a
+0003eb fc20
+0003ec 273a
+0003ed 2721
+0003ee 2f51
+0003ef 2352
+0003f0 2705
+0003f1 2f73
+0003f2 2770
+0003f3 2f52
+0003f4 2350
+0003f5 2727
+0003f6 2751
+0003f7 2f43
+0003f8 2b45
+0003f9 2742
+0003fa 9530
+0003fb 2753
+0003fc 2f64
+0003fd 2765
+0003fe 2b52
+0003ff 2705
+000400 9360 0065
+000402 9300 0075
+000404 9340 0085
+000406 9370 0095
+000408 9100 00b8
+00040a 9110 00b9
+00040c 9120 00ba
+00040e 9130 00bb
+000410 fc37
+000411 270a
+000412 fc36
+000413 271a
+000414 fc35
+000415 272a
+000416 fc34
+000417 273a
+000418 2721
+000419 2f51
+00041a 2352
+00041b 2705
+00041c 2f73
+00041d 2770
+00041e 2f52
+00041f 2350
+000420 2727
+000421 2751
+000422 2f43
+000423 2b45
+000424 2742
+000425 9530
+000426 2753
+000427 2f64
+000428 2765
+000429 2b52
+00042a 2705
+00042b 9360 0066
+00042d 9300 0076
+00042f 9340 0086
+000431 9370 0096
+000433 9100 00bc
+000435 9110 00bd
+000437 9120 00be
+000439 9130 00bf
+00043b fc33
+00043c 270a
+00043d fc32
+00043e 271a
+00043f fc31
+000440 272a
+000441 fc30
+000442 273a
+000443 2721
+000444 2f51
+000445 2352
+000446 2705
+000447 2f73
+000448 2770
+000449 2f52
+00044a 2350
+00044b 2727
+00044c 2751
+00044d 2f43
+00044e 2b45
+00044f 2742
+000450 9530
+000451 2753
+000452 2f64
+000453 2765
+000454 2b52
+000455 2705
+000456 9360 0067
+000458 9300 0077
+00045a 9340 0087
+00045c 9370 0097
+00045e 9100 00c0
+000460 9110 00c1
+000462 9120 00c2
+000464 9130 00c3
+000466 fc47
+000467 270a
+000468 fc46
+000469 271a
+00046a fc45
+00046b 272a
+00046c fc44
+00046d 273a
+00046e 2721
+00046f 2f51
+000470 2352
+000471 2705
+000472 2f73
+000473 2770
+000474 2f52
+000475 2350
+000476 2727
+000477 2751
+000478 2f43
+000479 2b45
+00047a 2742
+00047b 9530
+00047c 2753
+00047d 2f64
+00047e 2765
+00047f 2b52
+000480 2705
+000481 9360 0068
+000483 9300 0078
+000485 9340 0088
+000487 9370 0098
+000489 9100 00c4
+00048b 9110 00c5
+00048d 9120 00c6
+00048f 9130 00c7
+000491 fc43
+000492 270a
+000493 fc42
+000494 271a
+000495 fc41
+000496 272a
+000497 fc40
+000498 273a
+000499 2721
+00049a 2f51
+00049b 2352
+00049c 2705
+00049d 2f73
+00049e 2770
+00049f 2f52
+0004a0 2350
+0004a1 2727
+0004a2 2751
+0004a3 2f43
+0004a4 2b45
+0004a5 2742
+0004a6 9530
+0004a7 2753
+0004a8 2f64
+0004a9 2765
+0004aa 2b52
+0004ab 2705
+0004ac 9360 0069
+0004ae 9300 0079
+0004b0 9340 0089
+0004b2 9370 0099
+0004b4 9100 00c8
+0004b6 9110 00c9
+0004b8 9120 00ca
+0004ba 9130 00cb
+0004bc fc57
+0004bd 270a
+0004be fc56
+0004bf 271a
+0004c0 fc55
+0004c1 272a
+0004c2 fc54
+0004c3 273a
+0004c4 2721
+0004c5 2f51
+0004c6 2352
+0004c7 2705
+0004c8 2f73
+0004c9 2770
+0004ca 2f52
+0004cb 2350
+0004cc 2727
+0004cd 2751
+0004ce 2f43
+0004cf 2b45
+0004d0 2742
+0004d1 9530
+0004d2 2753
+0004d3 2f64
+0004d4 2765
+0004d5 2b52
+0004d6 2705
+0004d7 9360 006a
+0004d9 9300 007a
+0004db 9340 008a
+0004dd 9370 009a
+0004df 9100 00cc
+0004e1 9110 00cd
+0004e3 9120 00ce
+0004e5 9130 00cf
+0004e7 fc53
+0004e8 270a
+0004e9 fc52
+0004ea 271a
+0004eb fc51
+0004ec 272a
+0004ed fc50
+0004ee 273a
+0004ef 2721
+0004f0 2f51
+0004f1 2352
+0004f2 2705
+0004f3 2f73
+0004f4 2770
+0004f5 2f52
+0004f6 2350
+0004f7 2727
+0004f8 2751
+0004f9 2f43
+0004fa 2b45
+0004fb 2742
+0004fc 9530
+0004fd 2753
+0004fe 2f64
+0004ff 2765
+000500 2b52
+000501 2705
+000502 9360 006b
+000504 9300 007b
+000506 9340 008b
+000508 9370 009b
+00050a 9100 00d0
+00050c 9110 00d1
+00050e 9120 00d2
+000510 9130 00d3
+000512 fc67
+000513 270a
+000514 fc66
+000515 271a
+000516 fc65
+000517 272a
+000518 fc64
+000519 273a
+00051a 2721
+00051b 2f51
+00051c 2352
+00051d 2705
+00051e 2f73
+00051f 2770
+000520 2f52
+000521 2350
+000522 2727
+000523 2751
+000524 2f43
+000525 2b45
+000526 2742
+000527 9530
+000528 2753
+000529 2f64
+00052a 2765
+00052b 2b52
+00052c 2705
+00052d 9360 006c
+00052f 9300 007c
+000531 9340 008c
+000533 9370 009c
+000535 9100 00d4
+000537 9110 00d5
+000539 9120 00d6
+00053b 9130 00d7
+00053d fc63
+00053e 270a
+00053f fc62
+000540 271a
+000541 fc61
+000542 272a
+000543 fc60
+000544 273a
+000545 2721
+000546 2f51
+000547 2352
+000548 2705
+000549 2f73
+00054a 2770
+00054b 2f52
+00054c 2350
+00054d 2727
+00054e 2751
+00054f 2f43
+000550 2b45
+000551 2742
+000552 9530
+000553 2753
+000554 2f64
+000555 2765
+000556 2b52
+000557 2705
+000558 9360 006d
+00055a 9300 007d
+00055c 9340 008d
+00055e 9370 009d
+000560 9100 00d8
+000562 9110 00d9
+000564 9120 00da
+000566 9130 00db
+000568 fc77
+000569 270a
+00056a fc76
+00056b 271a
+00056c fc75
+00056d 272a
+00056e fc74
+00056f 273a
+000570 2721
+000571 2f51
+000572 2352
+000573 2705
+000574 2f73
+000575 2770
+000576 2f52
+000577 2350
+000578 2727
+000579 2751
+00057a 2f43
+00057b 2b45
+00057c 2742
+00057d 9530
+00057e 2753
+00057f 2f64
+000580 2765
+000581 2b52
+000582 2705
+000583 9360 006e
+000585 9300 007e
+000587 9340 008e
+000589 9370 009e
+00058b 9100 00dc
+00058d 9110 00dd
+00058f 9120 00de
+000591 9130 00df
+000593 fc73
+000594 270a
+000595 fc72
+000596 271a
+000597 fc71
+000598 272a
+000599 fc70
+00059a 273a
+00059b 2721
+00059c 2f51
+00059d 2352
+00059e 2705
+00059f 2f73
+0005a0 2770
+0005a1 2f52
+0005a2 2350
+0005a3 2727
+0005a4 2751
+0005a5 2f43
+0005a6 2b45
+0005a7 2742
+0005a8 9530
+0005a9 2753
+0005aa 2f64
+0005ab 2765
+0005ac 2b52
+0005ad 2705
+0005ae 9360 006f
+0005b0 9300 007f
+0005b2 9340 008f
+0005b4 9370 009f doitagain
+                 //+++++++++++++++++++++ END OF SP NETWORK 2+++++++++++++++++++++
+                 
+                 
+                 
+                 //+++++++++++++++++++++++++ KEY UPDATE 2+++++++++++++++++++++++++++++
+0005b6 9583
+0005b7 0f88
+0005b8 0f88
+0005b9 2658
+0005ba 9586
+0005bb 9586
+0005bc 2cb9
+0005bd 2ca8
+0005be 2488
+0005bf 94a6
+0005c0 94b7
+0005c1 9407
+0005c2 9417
+0005c3 9427
+0005c4 9437
+0005c5 9447
+0005c6 9457
+0005c7 9467
+0005c8 9477
+0005c9 9487
+0005ca 28a8
+0005cb 2488
+0005cc 94a6
+0005cd 94b7
+0005ce 9407
+0005cf 9417
+0005d0 9427
+0005d1 9437
+0005d2 9447
+0005d3 9457
+0005d4 9467
+0005d5 9477
+0005d6 9487
+0005d7 28a8
+0005d8 2488
+0005d9 94a6
+0005da 94b7
+0005db 9407
+0005dc 9417
+0005dd 9427
+0005de 9437
+0005df 9447
+0005e0 9457
+0005e1 9467
+0005e2 9477
+0005e3 9487
+0005e4 28a8
+0005e5 2c97
+0005e6 2c86
+0005e7 2c75
+0005e8 2c64
+0005e9 2c53
+0005ea 2c42
+0005eb 2c31
+0005ec 2c20
+0005ed 2c1b
+0005ee 2c0a
+0005ef e1f0
+0005f0 2de0
+0005f1 9004      update
+                 //+++++++++++++++++++++++++ END OF KEY UPDATE 2++++++++++++++++++++++
+                 
+                 
+                  /*back to beginning */
+                  //cpi counter,0x20
+                  //brne ONE_MORE_ROUND
+                   
+                  //rjmp END
+                  //ONE_MORE_ROUND:
+0005f2 ca24       rjmp LOOP_BEGINNING
+                 
+                 
+                  
+                  END:
+                 
+                  /* Final xor */
+                 
+0005f3 9100 00a0  lds x0, $a0
+0005f5 9110 00a1 lds x1, $a1
+0005f7 9120 00a2 lds x2, $a2
+0005f9 9130 00a3 lds x3, $a3
+0005fb fc07      sbrc k0, 7
+0005fc 270a      eor x0, vff
+0005fd fc06      sbrc k0, 6
+0005fe 271a      eor x1, vff
+0005ff fc05      sbrc k0, 5
+000600 272a      eor x2, vff
+000601 fc04      sbrc k0, 4
+000602 273a      eor x3, vff
+                 
+000603 9300 00a0 sts $a0, x0 
+000605 9310 00a1 sts $a1, x1
+000607 9320 00a2 sts $a2, x2
+000609 9330 00a3 sts $a3, x3 
+                 
+00060b 9100 00a4 lds x0, $a4
+00060d 9110 00a5 lds x1, $a5
+00060f 9120 00a6 lds x2, $a6
+000611 9130 00a7 lds x3, $a7
+000613 fc03      sbrc k0, 3
+000614 270a      eor x0, vff
+000615 fc02      sbrc k0, 2
+000616 271a      eor x1, vff
+000617 fc01      sbrc k0, 1
+000618 272a      eor x2, vff
+000619 fc00      sbrc k0, 0
+00061a 273a      eor x3, vff
+                 
+00061b 9300 00a4 sts $a4, x0 
+00061d 9310 00a5 sts $a5, x1
+00061f 9320 00a6 sts $a6, x2
+000621 9330 00a7 sts $a7, x3 
+                 
+000623 9100 00a8 lds x0, $a8
+000625 9110 00a9 lds x1, $a9
+000627 9120 00aa lds x2, $aa
+000629 9130 00ab lds x3, $ab
+00062b fc17      sbrc k1, 7
+00062c 270a      eor x0, vff
+00062d fc16      sbrc k1, 6
+00062e 271a      eor x1, vff
+00062f fc15      sbrc k1, 5
+000630 272a      eor x2, vff
+000631 fc14      sbrc k1, 4
+000632 273a      eor x3, vff
+                 
+000633 9300 00a8 sts $a8, x0 
+000635 9310 00a9 sts $a9, x1
+000637 9320 00aa sts $aa, x2
+000639 9330 00ab sts $ab, x3 
+                 
+00063b 9100 00ac lds x0, $ac
+00063d 9110 00ad lds x1, $ad
+00063f 9120 00ae lds x2, $ae
+000641 9130 00af lds x3, $af
+000643 fc13      sbrc k1, 3
+000644 270a      eor x0, vff
+000645 fc12      sbrc k1, 2
+000646 271a      eor x1, vff
+000647 fc11      sbrc k1, 1
+000648 272a      eor x2, vff
+000649 fc10      sbrc k1, 0
+00064a 273a      eor x3, vff
+                 
+00064b 9300 00ac sts $ac, x0 
+00064d 9310 00ad sts $ad, x1
+00064f 9320 00ae sts $ae, x2
+000651 9330 00af sts $af, x3 
+                 
+000653 9100 00b0 lds x0, $b0
+000655 9110 00b1 lds x1, $b1
+000657 9120 00b2 lds x2, $b2
+000659 9130 00b3 lds x3, $b3
+00065b fc27      sbrc k2, 7
+00065c 270a      eor x0, vff
+00065d fc26      sbrc k2, 6
+00065e 271a      eor x1, vff
+00065f fc25      sbrc k2, 5
+000660 272a      eor x2, vff
+000661 fc24      sbrc k2, 4
+000662 273a      eor x3, vff
+                 
+000663 9300 00b0 sts $b0, x0 
+000665 9310 00b1 sts $b1, x1
+000667 9320 00b2 sts $b2, x2
+000669 9330 00b3 sts $b3, x3 
+                 
+00066b 9100 00b4 lds x0, $b4
+00066d 9110 00b5 lds x1, $b5
+00066f 9120 00b6 lds x2, $b6
+000671 9130 00b7 lds x3, $b7
+000673 fc23      sbrc k2, 3
+000674 270a      eor x0, vff
+000675 fc22      sbrc k2, 2
+000676 271a      eor x1, vff
+000677 fc21      sbrc k2, 1
+000678 272a      eor x2, vff
+000679 fc20      sbrc k2, 0
+00067a 273a      eor x3, vff
+                 
+00067b 9300 00b4 sts $b4, x0 
+00067d 9310 00b5 sts $b5, x1
+00067f 9320 00b6 sts $b6, x2
+000681 9330 00b7 sts $b7, x3 
+                 
+000683 9100 00b8 lds x0, $b8
+000685 9110 00b9 lds x1, $b9
+000687 9120 00ba lds x2, $ba
+000689 9130 00bb lds x3, $bb
+00068b fc37      sbrc k3, 7
+00068c 270a      eor x0, vff
+00068d fc36      sbrc k3, 6
+00068e 271a      eor x1, vff
+00068f fc35      sbrc k3, 5
+000690 272a      eor x2, vff
+000691 fc34      sbrc k3, 4
+000692 273a      eor x3, vff
+                 
+000693 9300 00b8 sts $b8, x0 
+000695 9310 00b9 sts $b9, x1
+000697 9320 00ba sts $ba, x2
+000699 9330 00bb sts $bb, x3 
+                 
+00069b 9100 00bc lds x0, $bc
+00069d 9110 00bd lds x1, $bd
+00069f 9120 00be lds x2, $be
+0006a1 9130 00bf lds x3, $bf
+0006a3 fc33      sbrc k3, 3
+0006a4 270a      eor x0, vff
+0006a5 fc32      sbrc k3, 2
+0006a6 271a      eor x1, vff
+0006a7 fc31      sbrc k3, 1
+0006a8 272a      eor x2, vff
+0006a9 fc30      sbrc k3, 0
+0006aa 273a      eor x3, vff
+                 
+0006ab 9300 00bc sts $bc, x0 
+0006ad 9310 00bd sts $bd, x1
+0006af 9320 00be sts $be, x2
+0006b1 9330 00bf sts $bf, x3 
+                 
+0006b3 9100 00c0 lds x0, $c0
+0006b5 9110 00c1 lds x1, $c1
+0006b7 9120 00c2 lds x2, $c2
+0006b9 9130 00c3 lds x3, $c3
+0006bb fc47      sbrc k4, 7
+0006bc 270a      eor x0, vff
+0006bd fc46      sbrc k4, 6
+0006be 271a      eor x1, vff
+0006bf fc45      sbrc k4, 5
+0006c0 272a      eor x2, vff
+0006c1 fc44      sbrc k4, 4
+0006c2 273a      eor x3, vff
+                 
+0006c3 9300 00c0 sts $c0, x0 
+0006c5 9310 00c1 sts $c1, x1
+0006c7 9320 00c2 sts $c2, x2
+0006c9 9330 00c3 sts $c3, x3 
+                 
+0006cb 9100 00c4 lds x0, $c4
+0006cd 9110 00c5 lds x1, $c5
+0006cf 9120 00c6 lds x2, $c6
+0006d1 9130 00c7 lds x3, $c7
+0006d3 fc43      sbrc k4, 3
+0006d4 270a      eor x0, vff
+0006d5 fc42      sbrc k4, 2
+0006d6 271a      eor x1, vff
+0006d7 fc41      sbrc k4, 1
+0006d8 272a      eor x2, vff
+0006d9 fc40      sbrc k4, 0
+0006da 273a      eor x3, vff
+                 
+0006db 9300 00c4 sts $c4, x0 
+0006dd 9310 00c5 sts $c5, x1
+0006df 9320 00c6 sts $c6, x2
+0006e1 9330 00c7 sts $c7, x3 
+                 
+0006e3 9100 00c8 lds x0, $c8
+0006e5 9110 00c9 lds x1, $c9
+0006e7 9120 00ca lds x2, $ca
+0006e9 9130 00cb lds x3, $cb
+0006eb fc57      sbrc k5, 7
+0006ec 270a      eor x0, vff
+0006ed fc56      sbrc k5, 6
+0006ee 271a      eor x1, vff
+0006ef fc55      sbrc k5, 5
+0006f0 272a      eor x2, vff
+0006f1 fc54      sbrc k5, 4
+0006f2 273a      eor x3, vff
+                 
+0006f3 9300 00c8 sts $c8, x0 
+0006f5 9310 00c9 sts $c9, x1
+0006f7 9320 00ca sts $ca, x2
+0006f9 9330 00cb sts $cb, x3 
+                 
+0006fb 9100 00cc lds x0, $cc
+0006fd 9110 00cd lds x1, $cd
+0006ff 9120 00ce lds x2, $ce
+000701 9130 00cf lds x3, $cf
+000703 fc53      sbrc k5, 3
+000704 270a      eor x0, vff
+000705 fc52      sbrc k5, 2
+000706 271a      eor x1, vff
+000707 fc51      sbrc k5, 1
+000708 272a      eor x2, vff
+000709 fc50      sbrc k5, 0
+00070a 273a      eor x3, vff
+                 
+00070b 9300 00cc sts $cc, x0 
+00070d 9310 00cd sts $cd, x1
+00070f 9320 00ce sts $ce, x2
+000711 9330 00cf sts $cf, x3 
+                 
+000713 9100 00d0 lds x0, $d0
+000715 9110 00d1 lds x1, $d1
+000717 9120 00d2 lds x2, $d2
+000719 9130 00d3 lds x3, $d3
+00071b fc67      sbrc k6, 7
+00071c 270a      eor x0, vff
+00071d fc66      sbrc k6, 6
+00071e 271a      eor x1, vff
+00071f fc65      sbrc k6, 5
+000720 272a      eor x2, vff
+000721 fc64      sbrc k6, 4
+000722 273a      eor x3, vff
+                 
+000723 9300 00d0 sts $d0, x0 
+000725 9310 00d1 sts $d1, x1
+000727 9320 00d2 sts $d2, x2
+000729 9330 00d3 sts $d3, x3 
+                 
+00072b 9100 00d4 lds x0, $d4
+00072d 9110 00d5 lds x1, $d5
+00072f 9120 00d6 lds x2, $d6
+000731 9130 00d7 lds x3, $d7
+000733 fc63      sbrc k6, 3
+000734 270a      eor x0, vff
+000735 fc62      sbrc k6, 2
+000736 271a      eor x1, vff
+000737 fc61      sbrc k6, 1
+000738 272a      eor x2, vff
+000739 fc60      sbrc k6, 0
+00073a 273a      eor x3, vff
+                 
+00073b 9300 00d4 sts $d4, x0 
+00073d 9310 00d5 sts $d5, x1
+00073f 9320 00d6 sts $d6, x2
+000741 9330 00d7 sts $d7, x3 
+                 
+000743 9100 00d8 lds x0, $d8
+000745 9110 00d9 lds x1, $d9
+000747 9120 00da lds x2, $da
+000749 9130 00db lds x3, $db
+00074b fc77      sbrc k7, 7
+00074c 270a      eor x0, vff
+00074d fc76      sbrc k7, 6
+00074e 271a      eor x1, vff
+00074f fc75      sbrc k7, 5
+000750 272a      eor x2, vff
+000751 fc74      sbrc k7, 4
+000752 273a      eor x3, vff
+                 
+000753 9300 00d8 sts $d8, x0 
+000755 9310 00d9 sts $d9, x1
+000757 9320 00da sts $da, x2
+000759 9330 00db sts $db, x3 
+                 
+00075b 9100 00dc lds x0, $dc
+00075d 9110 00dd lds x1, $dd
+00075f 9120 00de lds x2, $de
+000761 9130 00df lds x3, $df
+000763 fc73      sbrc k7, 3
+000764 270a      eor x0, vff
+000765 fc72      sbrc k7, 2
+000766 271a      eor x1, vff
+000767 fc71      sbrc k7, 1
+000768 272a      eor x2, vff
+000769 fc70      sbrc k7, 0
+00076a 273a      eor x3, vff
+                 
+00076b 9300 00dc sts $dc, x0 
+00076d 9310 00dd sts $dd, x1
+00076f 9320 00de sts $de, x2
+000771 9330 00df sts $df, x3 
+                 
+                 
+                  
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 /* that's all folks */
+
+
+RESOURCE USE INFORMATION
+------------------------
+
+Notice:
+The register and instruction counts are symbol table hit counts,
+and hence implicitly used resources are not counted, eg, the
+'lpm' instruction without operands implicitly uses r0 and z,
+none of which are counted.
+
+x,y,z are separate entities in the symbol table and are
+counted separately from r26..r31 here.
+
+.dseg memory usage only counts static data declared with .byte
+
+"ATtiny85" register use summary:
+r0 :  39 r1 :  35 r2 :  35 r3 :  35 r4 :  35 r5 :  37 r6 :  35 r7 :  35 
+r8 :  29 r9 :   5 r10:  16 r11:  10 r12:   0 r13:   0 r14:   0 r15:   0 
+r16: 293 r17: 208 r18: 304 r19: 240 r20: 160 r21: 352 r22:  96 r23: 128 
+r24:  15 r25:   0 r26: 193 r27:   0 r28:   0 r29:   0 r30:   4 r31:   2 
+x  :   0 y  :   0 z  :   2 
+Registers used: 25 out of 35 (71.4%)
+
+"ATtiny85" instruction use summary:
+.lds  :   0 .sts  :   0 adc   :   0 add   :   0 adiw  :   0 and   :  64 
+andi  :   0 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0 
+brcc  :   0 brcs  :   0 break :   0 breq  :   0 brge  :   0 brhc  :   0 
+brhs  :   0 brid  :   0 brie  :   0 brlo  :   0 brlt  :   0 brmi  :   0 
+brne  :   1 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
+brvs  :   0 bset  :   0 bst   :   0 cbi   :   0 cbr   :   0 clc   :   0 
+clh   :   0 cli   :   0 cln   :   0 clr   :   0 cls   :   0 clt   :   0 
+clv   :   0 clz   :   0 com   :  32 cp    :   0 cpc   :   0 cpi   :   1 
+cpse  :   0 dec   :   0 eor   : 490 icall :   0 ijmp  :   0 in    :   0 
+inc   :   2 ld    :   0 ldd   :   0 ldi   :  14 lds   : 192 lpm   :   4 
+lsl   :   4 lsr   :  10 mov   : 196 movw  :   0 neg   :   0 nop   :   0 
+or    :  70 ori   :   0 out   :   0 pop   :   0 push  :   0 rcall :   0 
+ret   :   0 reti  :   0 rjmp  :   2 rol   :   0 ror   :  60 sbc   :   0 
+sbci  :   0 sbi   :   0 sbic  :   0 sbis  :   0 sbiw  :   0 sbr   :   0 
+sbrc  : 192 sbrs  :   0 sec   :   0 seh   :   0 sei   :   0 sen   :   0 
+ser   :   0 ses   :   0 set   :   0 sev   :   0 sez   :   0 sleep :   0 
+spm   :   0 st    :   0 std   :   0 sts   : 192 sub   :   0 subi  :   0 
+swap  :   0 tst   :   0 wdr   :   0 
+Instructions used: 17 out of 105 (16.2%)
+
+"ATtiny85" memory use summary [bytes]:
+Segment   Begin    End      Code   Data   Used    Size   Use%
+---------------------------------------------------------------
+[.cseg] 0x000000 0x001100   3816    256   4072    8192  49.7%
+[.dseg] 0x000060 0x000060      0      0      0     512   0.0%
+[.eseg] 0x000000 0x000000      0      0      0     512   0.0%
+
+Assembly complete, 0 errors, 5 warnings

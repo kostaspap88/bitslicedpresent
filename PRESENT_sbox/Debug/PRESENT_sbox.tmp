@@ -1,0 +1,28 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.1.52</VERSION>
+ <DEVICE>"ATtiny45"</DEVICE>
+ <WORKING_DIR>C:\Users\airwizard\Documents\Atmel Studio\PRESENT_sbox\PRESENT_sbox\Debug</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:\Program Files (x86)\Atmel\Atmel Studio 6.0\extensions\Atmel\AVRAssembler\2.1.51.64\AvrAssembler/Include</DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>C:\Users\airwizard\Documents\Atmel Studio\PRESENT_sbox\PRESENT_sbox\PRESENT_sbox.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:\Program Files (x86)\Atmel\Atmel Studio 6.0\extensions\Atmel\AVRAssembler\2.1.51.64\AvrAssembler/Include\tn45def.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>C:\Users\airwizard\Documents\Atmel Studio\PRESENT_sbox\PRESENT_sbox\Debug/PRESENT_sbox.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>C:\Users\airwizard\Documents\Atmel Studio\PRESENT_sbox\PRESENT_sbox\Debug/PRESENT_sbox.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>C:\Users\airwizard\Documents\Atmel Studio\PRESENT_sbox\PRESENT_sbox\Debug\PRESENT_sbox.map</FILE>
+  <FILE>C:\Users\airwizard\Documents\Atmel Studio\PRESENT_sbox\PRESENT_sbox\Debug\PRESENT_sbox.lss</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <sbox256><FILE>C:\Users\airwizard\Documents\Atmel Studio\PRESENT_sbox\PRESENT_sbox\PRESENT_sbox.asm</FILE><LINE>12</LINE></sbox256>
+  <LOOP_BEGINNING><FILE>C:\Users\airwizard\Documents\Atmel Studio\PRESENT_sbox\PRESENT_sbox\PRESENT_sbox.asm</FILE><LINE>106</LINE></LOOP_BEGINNING>
+  <ONE_MORE_ROUND><FILE>C:\Users\airwizard\Documents\Atmel Studio\PRESENT_sbox\PRESENT_sbox\PRESENT_sbox.asm</FILE><LINE>1400</LINE></ONE_MORE_ROUND>
+  <END><FILE>C:\Users\airwizard\Documents\Atmel Studio\PRESENT_sbox\PRESENT_sbox\PRESENT_sbox.asm</FILE><LINE>1234</LINE></END>
+ </LABELS>
+</ASSEMBLER_INFO>

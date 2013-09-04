@@ -1,0 +1,2307 @@
+
+AVRASM ver. 2.1.52  C:\Users\airwizard\Documents\Atmel Studio\PRESENT_sbox\PRESENT_sbox\PRESENT_sbox.asm Fri Aug 23 18:11:16 2013
+
+[builtin](2): Including file 'C:\Program Files (x86)\Atmel\Atmel Studio 6.0\extensions\Atmel\AVRAssembler\2.1.51.64\AvrAssembler/Include\tn45def.inc'
+C:\Users\airwizard\Documents\Atmel Studio\PRESENT_sbox\PRESENT_sbox\PRESENT_sbox.asm(53): Including file 'C:\Program Files (x86)\Atmel\Atmel Studio 6.0\extensions\Atmel\AVRAssembler\2.1.51.64\AvrAssembler/Include\tn45def.inc'
+C:\Users\airwizard\Documents\Atmel Studio\PRESENT_sbox\PRESENT_sbox\PRESENT_sbox.asm(60): warning: Register r18 already defined by the .DEF directive
+C:\Users\airwizard\Documents\Atmel Studio\PRESENT_sbox\PRESENT_sbox\PRESENT_sbox.asm(62): warning: Register r16 already defined by the .DEF directive
+C:\Users\airwizard\Documents\Atmel Studio\PRESENT_sbox\PRESENT_sbox\PRESENT_sbox.asm(66): warning: Register r16 already defined by the .DEF directive
+C:\Users\airwizard\Documents\Atmel Studio\PRESENT_sbox\PRESENT_sbox\PRESENT_sbox.asm(67): warning: Register r20 already defined by the .DEF directive
+C:\Users\airwizard\Documents\Atmel Studio\PRESENT_sbox\PRESENT_sbox\PRESENT_sbox.asm(98): warning: Register r26 already defined by the .DEF directive
+                 
+                 /*
+                 
+                 ;***** Created: 2011-02-09 12:04 ******* Source: ATtiny45.xml ************
+                 ;*************************************************************************
+                 ;* A P P L I C A T I O N   N O T E   F O R   T H E   A V R   F A M I L Y
+                 ;* 
+                 ;* Number            : AVR000
+                 ;* File Name         : "tn45def.inc"
+                 ;* Title             : Register/Bit Definitions for the ATtiny45
+                 ;* Date              : 2011-02-09
+                 ;* Version           : 2.35
+                 ;* Support E-mail    : avr@atmel.com
+                 ;* Target MCU        : ATtiny45
+                 ;* 
+                 ;* DESCRIPTION
+                 ;* When including this file in the assembly program file, all I/O register 
+                 ;* names and I/O register bit names appearing in the data book can be used.
+                 ;* In addition, the six registers forming the three data pointers X, Y and 
+                 ;* Z have been assigned names XL - ZH. Highest RAM address for Internal 
+                 ;* SRAM is also defined 
+                 ;* 
+                 ;* The Register names are represented by their hexadecimal address.
+                 ;* 
+                 ;* The Register Bit names are represented by their bit number (0-7).
+                 ;* 
+                 ;* Please observe the difference in using the bit names with instructions
+                 ;* such as "sbr"/"cbr" (set/clear bit in register) and "sbrs"/"sbrc"
+                 ;* (skip if bit in register set/cleared). The following example illustrates
+                 ;* this:
+                 ;* 
+                 ;* in    r16,PORTB             ;read PORTB latch
+                 ;* sbr   r16,(1<<PB6)+(1<<PB5) ;set PB6 and PB5 (use masks, not bit#)
+                 ;* out   PORTB,r16             ;output to PORTB
+                 ;* 
+                 ;* in    r16,TIFR              ;read the Timer Interrupt Flag Register
+                 ;* sbrc  r16,TOV0              ;test the overflow flag (use bit#)
+                 ;* rjmp  TOV0_is_set           ;jump if set
+                 ;* ...                         ;otherwise do something else
+                 ;*************************************************************************
+                 
+                 #ifndef _TN45DEF_INC_
+                 #define _TN45DEF_INC_
+                 
+                 
+                 #pragma partinc 0
+                 
+                 ; ***** SPECIFY DEVICE ***************************************************
+                 .device ATtiny45
+                 #pragma AVRPART ADMIN PART_NAME ATtiny45
+                 .equ	SIGNATURE_000	= 0x1e
+                 .equ	SIGNATURE_001	= 0x92
+                 .equ	SIGNATURE_002	= 0x06
+                 
+                 #pragma AVRPART CORE CORE_VERSION V2
+                 #pragma AVRPART CORE NEW_INSTRUCTIONS lpm rd,z+
+                 
+                 
+                 ; ***** I/O REGISTER DEFINITIONS *****************************************
+                 ; NOTE:
+                 ; Definitions marked "MEMORY MAPPED"are extended I/O ports
+                 ; and cannot be used with IN/OUT instructions
+                 .equ	SREG	= 0x3f
+                 .equ	SPL	= 0x3d
+                 .equ	SPH	= 0x3e
+                 .equ	GIMSK	= 0x3b
+                 .equ	GIFR	= 0x3a
+                 .equ	TIMSK	= 0x39
+                 .equ	TIFR	= 0x38
+                 .equ	SPMCSR	= 0x37
+                 .equ	MCUCR	= 0x35
+                 .equ	MCUSR	= 0x34
+                 .equ	TCCR0B	= 0x33
+                 .equ	TCNT0	= 0x32
+                 .equ	OSCCAL	= 0x31
+                 .equ	TCCR1	= 0x30
+                 .equ	TCNT1	= 0x2f
+                 .equ	OCR1A	= 0x2e
+                 .equ	OCR1C	= 0x2d
+                 .equ	GTCCR	= 0x2c
+                 .equ	OCR1B	= 0x2b
+                 .equ	TCCR0A	= 0x2a
+                 .equ	OCR0A	= 0x29
+                 .equ	OCR0B	= 0x28
+                 .equ	PLLCSR	= 0x27
+                 .equ	CLKPR	= 0x26
+                 .equ	DT1A	= 0x25
+                 .equ	DT1B	= 0x24
+                 .equ	DTPS	= 0x23
+                 .equ	DWDR	= 0x22
+                 .equ	WDTCR	= 0x21
+                 .equ	PRR	= 0x20
+                 .equ	EEARH	= 0x1f
+                 .equ	EEARL	= 0x1e
+                 .equ	EEDR	= 0x1d
+                 .equ	EECR	= 0x1c
+                 .equ	PORTB	= 0x18
+                 .equ	DDRB	= 0x17
+                 .equ	PINB	= 0x16
+                 .equ	PCMSK	= 0x15
+                 .equ	DIDR0	= 0x14
+                 .equ	GPIOR2	= 0x13
+                 .equ	GPIOR1	= 0x12
+                 .equ	GPIOR0	= 0x11
+                 .equ	USIBR	= 0x10
+                 .equ	USIDR	= 0x0f
+                 .equ	USISR	= 0x0e
+                 .equ	USICR	= 0x0d
+                 .equ	ACSR	= 0x08
+                 .equ	ADMUX	= 0x07
+                 .equ	ADCSRA	= 0x06
+                 .equ	ADCH	= 0x05
+                 .equ	ADCL	= 0x04
+                 .equ	ADCSRB	= 0x03
+                 
+                 
+                 ; ***** BIT DEFINITIONS **************************************************
+                 
+                 ; ***** PORTB ************************
+                 ; PORTB - Data Register, Port B
+                 .equ	PORTB0	= 0	; 
+                 .equ	PB0	= 0	; For compatibility
+                 .equ	PORTB1	= 1	; 
+                 .equ	PB1	= 1	; For compatibility
+                 .equ	PORTB2	= 2	; 
+                 .equ	PB2	= 2	; For compatibility
+                 .equ	PORTB3	= 3	; 
+                 .equ	PB3	= 3	; For compatibility
+                 .equ	PORTB4	= 4	; 
+                 .equ	PB4	= 4	; For compatibility
+                 .equ	PORTB5	= 5	; 
+                 .equ	PB5	= 5	; For compatibility
+                 
+                 ; DDRB - Data Direction Register, Port B
+                 .equ	DDB0	= 0	; 
+                 .equ	DDB1	= 1	; 
+                 .equ	DDB2	= 2	; 
+                 .equ	DDB3	= 3	; 
+                 .equ	DDB4	= 4	; 
+                 .equ	DDB5	= 5	; 
+                 
+                 ; PINB - Input Pins, Port B
+                 .equ	PINB0	= 0	; 
+                 .equ	PINB1	= 1	; 
+                 .equ	PINB2	= 2	; 
+                 .equ	PINB3	= 3	; 
+                 .equ	PINB4	= 4	; 
+                 .equ	PINB5	= 5	; 
+                 
+                 
+                 ; ***** ANALOG_COMPARATOR ************
+                 ; ADCSRB - ADC Control and Status Register B
+                 .equ	ACME	= 6	; Analog Comparator Multiplexer Enable
+                 
+                 ; ACSR - Analog Comparator Control And Status Register
+                 .equ	ACIS0	= 0	; Analog Comparator Interrupt Mode Select bit 0
+                 .equ	ACIS1	= 1	; Analog Comparator Interrupt Mode Select bit 1
+                 .equ	ACIE	= 3	; Analog Comparator Interrupt Enable
+                 .equ	ACI	= 4	; Analog Comparator Interrupt Flag
+                 .equ	ACO	= 5	; Analog Compare Output
+                 .equ	ACBG	= 6	; Analog Comparator Bandgap Select
+                 .equ	AINBG	= ACBG	; For compatibility
+                 .equ	ACD	= 7	; Analog Comparator Disable
+                 
+                 ; DIDR0 - 
+                 .equ	AIN0D	= 0	; AIN0 Digital Input Disable
+                 .equ	AIN1D	= 1	; AIN1 Digital Input Disable
+                 
+                 
+                 ; ***** AD_CONVERTER *****************
+                 ; ADMUX - The ADC multiplexer Selection Register
+                 .equ	MUX0	= 0	; Analog Channel and Gain Selection Bits
+                 .equ	MUX1	= 1	; Analog Channel and Gain Selection Bits
+                 .equ	MUX2	= 2	; Analog Channel and Gain Selection Bits
+                 .equ	MUX3	= 3	; Analog Channel and Gain Selection Bits
+                 .equ	REFS2	= 4	; Reference Selection Bit 2
+                 .equ	ADLAR	= 5	; Left Adjust Result
+                 .equ	REFS0	= 6	; Reference Selection Bit 0
+                 .equ	REFS1	= 7	; Reference Selection Bit 1
+                 
+                 ; ADCSRA - The ADC Control and Status register
+                 .equ	ADPS0	= 0	; ADC  Prescaler Select Bits
+                 .equ	ADPS1	= 1	; ADC  Prescaler Select Bits
+                 .equ	ADPS2	= 2	; ADC  Prescaler Select Bits
+                 .equ	ADIE	= 3	; ADC Interrupt Enable
+                 .equ	ADIF	= 4	; ADC Interrupt Flag
+                 .equ	ADATE	= 5	; ADC Auto Trigger Enable
+                 .equ	ADSC	= 6	; ADC Start Conversion
+                 .equ	ADEN	= 7	; ADC Enable
+                 
+                 ; ADCH - ADC Data Register High Byte
+                 .equ	ADCH0	= 0	; ADC Data Register High Byte Bit 0
+                 .equ	ADCH1	= 1	; ADC Data Register High Byte Bit 1
+                 .equ	ADCH2	= 2	; ADC Data Register High Byte Bit 2
+                 .equ	ADCH3	= 3	; ADC Data Register High Byte Bit 3
+                 .equ	ADCH4	= 4	; ADC Data Register High Byte Bit 4
+                 .equ	ADCH5	= 5	; ADC Data Register High Byte Bit 5
+                 .equ	ADCH6	= 6	; ADC Data Register High Byte Bit 6
+                 .equ	ADCH7	= 7	; ADC Data Register High Byte Bit 7
+                 
+                 ; ADCL - ADC Data Register Low Byte
+                 .equ	ADCL0	= 0	; ADC Data Register Low Byte Bit 0
+                 .equ	ADCL1	= 1	; ADC Data Register Low Byte Bit 1
+                 .equ	ADCL2	= 2	; ADC Data Register Low Byte Bit 2
+                 .equ	ADCL3	= 3	; ADC Data Register Low Byte Bit 3
+                 .equ	ADCL4	= 4	; ADC Data Register Low Byte Bit 4
+                 .equ	ADCL5	= 5	; ADC Data Register Low Byte Bit 5
+                 .equ	ADCL6	= 6	; ADC Data Register Low Byte Bit 6
+                 .equ	ADCL7	= 7	; ADC Data Register Low Byte Bit 7
+                 
+                 ; ADCSRB - ADC Control and Status Register B
+                 .equ	ADTS0	= 0	; ADC Auto Trigger Source 0
+                 .equ	ADTS1	= 1	; ADC Auto Trigger Source 1
+                 .equ	ADTS2	= 2	; ADC Auto Trigger Source 2
+                 .equ	IPR	= 5	; Input Polarity Mode
+                 .equ	BIN	= 7	; Bipolar Input Mode
+                 
+                 ; DIDR0 - Digital Input Disable Register 0
+                 .equ	ADC1D	= 2	; ADC1 Digital input Disable
+                 .equ	ADC3D	= 3	; ADC3 Digital input Disable
+                 .equ	ADC2D	= 4	; ADC2 Digital input Disable
+                 .equ	ADC0D	= 5	; ADC0 Digital input Disable
+                 
+                 
+                 ; ***** USI **************************
+                 ; USIBR - USI Buffer Register
+                 .equ	USIBR0	= 0	; USI Buffer Register bit 0
+                 .equ	USIBR1	= 1	; USI Buffer Register bit 1
+                 .equ	USIBR2	= 2	; USI Buffer Register bit 2
+                 .equ	USIBR3	= 3	; USI Buffer Register bit 3
+                 .equ	USIBR4	= 4	; USI Buffer Register bit 4
+                 .equ	USIBR5	= 5	; USI Buffer Register bit 5
+                 .equ	USIBR6	= 6	; USI Buffer Register bit 6
+                 .equ	USIBR7	= 7	; USI Buffer Register bit 7
+                 
+                 ; USIDR - USI Data Register
+                 .equ	USIDR0	= 0	; USI Data Register bit 0
+                 .equ	USIDR1	= 1	; USI Data Register bit 1
+                 .equ	USIDR2	= 2	; USI Data Register bit 2
+                 .equ	USIDR3	= 3	; USI Data Register bit 3
+                 .equ	USIDR4	= 4	; USI Data Register bit 4
+                 .equ	USIDR5	= 5	; USI Data Register bit 5
+                 .equ	USIDR6	= 6	; USI Data Register bit 6
+                 .equ	USIDR7	= 7	; USI Data Register bit 7
+                 
+                 ; USISR - USI Status Register
+                 .equ	USICNT0	= 0	; USI Counter Value Bit 0
+                 .equ	USICNT1	= 1	; USI Counter Value Bit 1
+                 .equ	USICNT2	= 2	; USI Counter Value Bit 2
+                 .equ	USICNT3	= 3	; USI Counter Value Bit 3
+                 .equ	USIDC	= 4	; Data Output Collision
+                 .equ	USIPF	= 5	; Stop Condition Flag
+                 .equ	USIOIF	= 6	; Counter Overflow Interrupt Flag
+                 .equ	USISIF	= 7	; Start Condition Interrupt Flag
+                 
+                 ; USICR - USI Control Register
+                 .equ	USITC	= 0	; Toggle Clock Port Pin
+                 .equ	USICLK	= 1	; Clock Strobe
+                 .equ	USICS0	= 2	; USI Clock Source Select Bit 0
+                 .equ	USICS1	= 3	; USI Clock Source Select Bit 1
+                 .equ	USIWM0	= 4	; USI Wire Mode Bit 0
+                 .equ	USIWM1	= 5	; USI Wire Mode Bit 1
+                 .equ	USIOIE	= 6	; Counter Overflow Interrupt Enable
+                 .equ	USISIE	= 7	; Start Condition Interrupt Enable
+                 
+                 
+                 ; ***** EXTERNAL_INTERRUPT ***********
+                 ; MCUCR - MCU Control Register
+                 .equ	ISC00	= 0	; Interrupt Sense Control 0 Bit 0
+                 .equ	ISC01	= 1	; Interrupt Sense Control 0 Bit 1
+                 
+                 ; GIMSK - General Interrupt Mask Register
+                 .equ	GICR	= GIMSK	; For compatibility
+                 .equ	PCIE	= 5	; Pin Change Interrupt Enable
+                 .equ	INT0	= 6	; External Interrupt Request 0 Enable
+                 
+                 ; GIFR - General Interrupt Flag register
+                 .equ	PCIF	= 5	; Pin Change Interrupt Flag
+                 .equ	INTF0	= 6	; External Interrupt Flag 0
+                 
+                 ; PCMSK - Pin Change Enable Mask
+                 .equ	PCINT0	= 0	; Pin Change Enable Mask Bit 0
+                 .equ	PCINT1	= 1	; Pin Change Enable Mask Bit 1
+                 .equ	PCINT2	= 2	; Pin Change Enable Mask Bit 2
+                 .equ	PCINT3	= 3	; Pin Change Enable Mask Bit 3
+                 .equ	PCINT4	= 4	; Pin Change Enable Mask Bit 4
+                 .equ	PCINT5	= 5	; Pin Change Enable Mask Bit 5
+                 
+                 
+                 ; ***** EEPROM ***********************
+                 ; EEARL - EEPROM Address Register Low Byte
+                 .equ	EEAR0	= 0	; EEPROM Read/Write Access Bit 0
+                 .equ	EEAR1	= 1	; EEPROM Read/Write Access Bit 1
+                 .equ	EEAR2	= 2	; EEPROM Read/Write Access Bit 2
+                 .equ	EEAR3	= 3	; EEPROM Read/Write Access Bit 3
+                 .equ	EEAR4	= 4	; EEPROM Read/Write Access Bit 4
+                 .equ	EEAR5	= 5	; EEPROM Read/Write Access Bit 5
+                 .equ	EEAR6	= 6	; EEPROM Read/Write Access Bit 6
+                 .equ	EEAR7	= 7	; EEPROM Read/Write Access Bit 7
+                 
+                 ; EEARH - EEPROM Address Register High Byte
+                 .equ	EEAR8	= 0	; EEPROM Read/Write Access Bit 0
+                 
+                 ; EEDR - EEPROM Data Register
+                 .equ	EEDR0	= 0	; EEPROM Data Register bit 0
+                 .equ	EEDR1	= 1	; EEPROM Data Register bit 1
+                 .equ	EEDR2	= 2	; EEPROM Data Register bit 2
+                 .equ	EEDR3	= 3	; EEPROM Data Register bit 3
+                 .equ	EEDR4	= 4	; EEPROM Data Register bit 4
+                 .equ	EEDR5	= 5	; EEPROM Data Register bit 5
+                 .equ	EEDR6	= 6	; EEPROM Data Register bit 6
+                 .equ	EEDR7	= 7	; EEPROM Data Register bit 7
+                 
+                 ; EECR - EEPROM Control Register
+                 .equ	EERE	= 0	; EEPROM Read Enable
+                 .equ	EEPE	= 1	; EEPROM Write Enable
+                 .equ	EEMPE	= 2	; EEPROM Master Write Enable
+                 .equ	EERIE	= 3	; EEPROM Ready Interrupt Enable
+                 .equ	EEPM0	= 4	; EEPROM Programming Mode Bit 0
+                 .equ	EEPM1	= 5	; EEPROM Programming Mode Bit 1
+                 
+                 
+                 ; ***** WATCHDOG *********************
+                 ; WDTCR - Watchdog Timer Control Register
+                 .equ	WDTCSR	= WDTCR	; For compatibility
+                 .equ	WDP0	= 0	; Watch Dog Timer Prescaler bit 0
+                 .equ	WDP1	= 1	; Watch Dog Timer Prescaler bit 1
+                 .equ	WDP2	= 2	; Watch Dog Timer Prescaler bit 2
+                 .equ	WDE	= 3	; Watch Dog Enable
+                 .equ	WDCE	= 4	; Watchdog Change Enable
+                 .equ	WDTOE	= WDCE	; For compatibility
+                 .equ	WDP3	= 5	; Watchdog Timer Prescaler Bit 3
+                 .equ	WDIE	= 6	; Watchdog Timeout Interrupt Enable
+                 .equ	WDIF	= 7	; Watchdog Timeout Interrupt Flag
+                 
+                 
+                 ; ***** TIMER_COUNTER_0 **************
+                 ; TIMSK - Timer/Counter Interrupt Mask Register
+                 .equ	TOIE0	= 1	; Timer/Counter0 Overflow Interrupt Enable
+                 .equ	OCIE0B	= 3	; Timer/Counter0 Output Compare Match B Interrupt Enable
+                 .equ	OCIE0A	= 4	; Timer/Counter0 Output Compare Match A Interrupt Enable
+                 
+                 ; TIFR - Timer/Counter0 Interrupt Flag register
+                 .equ	TOV0	= 1	; Timer/Counter0 Overflow Flag
+                 .equ	OCF0B	= 3	; Timer/Counter0 Output Compare Flag 0B
+                 .equ	OCF0A	= 4	; Timer/Counter0 Output Compare Flag 0A
+                 
+                 ; TCCR0A - Timer/Counter  Control Register A
+                 .equ	WGM00	= 0	; Waveform Generation Mode
+                 .equ	WGM01	= 1	; Waveform Generation Mode
+                 .equ	COM0B0	= 4	; Compare Output Mode, Fast PWm
+                 .equ	COM0B1	= 5	; Compare Output Mode, Fast PWm
+                 .equ	COM0A0	= 6	; Compare Output Mode, Phase Correct PWM Mode
+                 .equ	COM0A1	= 7	; Compare Output Mode, Phase Correct PWM Mode
+                 
+                 ; TCCR0B - Timer/Counter Control Register B
+                 .equ	CS00	= 0	; Clock Select
+                 .equ	CS01	= 1	; Clock Select
+                 .equ	CS02	= 2	; Clock Select
+                 .equ	WGM02	= 3	; 
+                 .equ	FOC0B	= 6	; Force Output Compare B
+                 .equ	FOC0A	= 7	; Force Output Compare A
+                 
+                 ; TCNT0 - Timer/Counter0
+                 .equ	TCNT0_0	= 0	; 
+                 .equ	TCNT0_1	= 1	; 
+                 .equ	TCNT0_2	= 2	; 
+                 .equ	TCNT0_3	= 3	; 
+                 .equ	TCNT0_4	= 4	; 
+                 .equ	TCNT0_5	= 5	; 
+                 .equ	TCNT0_6	= 6	; 
+                 .equ	TCNT0_7	= 7	; 
+                 
+                 ; OCR0A - Timer/Counter0 Output Compare Register
+                 .equ	OCR0_0	= 0	; 
+                 .equ	OCR0_1	= 1	; 
+                 .equ	OCR0_2	= 2	; 
+                 .equ	OCR0_3	= 3	; 
+                 .equ	OCR0_4	= 4	; 
+                 .equ	OCR0_5	= 5	; 
+                 .equ	OCR0_6	= 6	; 
+                 .equ	OCR0_7	= 7	; 
+                 
+                 ; OCR0B - Timer/Counter0 Output Compare Register
+                 ;.equ	OCR0_0	= 0	; 
+                 ;.equ	OCR0_1	= 1	; 
+                 ;.equ	OCR0_2	= 2	; 
+                 ;.equ	OCR0_3	= 3	; 
+                 ;.equ	OCR0_4	= 4	; 
+                 ;.equ	OCR0_5	= 5	; 
+                 ;.equ	OCR0_6	= 6	; 
+                 ;.equ	OCR0_7	= 7	; 
+                 
+                 ; GTCCR - General Timer/Counter Control Register
+                 .equ	PSR0	= 0	; Prescaler Reset Timer/Counter1 and Timer/Counter0
+                 .equ	TSM	= 7	; Timer/Counter Synchronization Mode
+                 
+                 
+                 ; ***** TIMER_COUNTER_1 **************
+                 ; TCCR1 - Timer/Counter Control Register
+                 .equ	CS10	= 0	; Clock Select Bits
+                 .equ	CS11	= 1	; Clock Select Bits
+                 .equ	CS12	= 2	; Clock Select Bits
+                 .equ	CS13	= 3	; Clock Select Bits
+                 .equ	COM1A0	= 4	; Compare Output Mode, Bit 1
+                 .equ	COM1A1	= 5	; Compare Output Mode, Bit 0
+                 .equ	PWM1A	= 6	; Pulse Width Modulator Enable
+                 .equ	CTC1	= 7	; Clear Timer/Counter on Compare Match
+                 
+                 ; TCNT1 - Timer/Counter Register
+                 .equ	TCNT1_0	= 0	; Timer/Counter Register Bit 0
+                 .equ	TCNT1_1	= 1	; Timer/Counter Register Bit 1
+                 .equ	TCNT1_2	= 2	; Timer/Counter Register Bit 2
+                 .equ	TCNT1_3	= 3	; Timer/Counter Register Bit 3
+                 .equ	TCNT1_4	= 4	; Timer/Counter Register Bit 4
+                 .equ	TCNT1_5	= 5	; Timer/Counter Register Bit 5
+                 .equ	TCNT1_6	= 6	; Timer/Counter Register Bit 6
+                 .equ	TCNT1_7	= 7	; Timer/Counter Register Bit 7
+                 
+                 ; OCR1A - Output Compare Register
+                 .equ	OCR1A0	= 0	; Output Compare Register A Bit 0
+                 .equ	OCR1A1	= 1	; Output Compare Register A Bit 1
+                 .equ	OCR1A2	= 2	; Output Compare Register A Bit 2
+                 .equ	OCR1A3	= 3	; Output Compare Register A Bit 3
+                 .equ	OCR1A4	= 4	; Output Compare Register A Bit 4
+                 .equ	OCR1A5	= 5	; Output Compare Register A Bit 5
+                 .equ	OCR1A6	= 6	; Output Compare Register A Bit 6
+                 .equ	OCR1A7	= 7	; Output Compare Register A Bit 7
+                 
+                 ; OCR1B - Output Compare Register
+                 .equ	OCR1B0	= 0	; Output Compare Register B Bit 0
+                 .equ	OCR1B1	= 1	; Output Compare Register B Bit 1
+                 .equ	OCR1B2	= 2	; Output Compare Register B Bit 2
+                 .equ	OCR1B3	= 3	; Output Compare Register B Bit 3
+                 .equ	OCR1B4	= 4	; Output Compare Register B Bit 4
+                 .equ	OCR1B5	= 5	; Output Compare Register B Bit 5
+                 .equ	OCR1B6	= 6	; Output Compare Register B Bit 6
+                 .equ	OCR1B7	= 7	; Output Compare Register B Bit 7
+                 
+                 ; OCR1C - Output compare register
+                 .equ	OCR1C0	= 0	; 
+                 .equ	OCR1C1	= 1	; 
+                 .equ	OCR1C2	= 2	; 
+                 .equ	OCR1C3	= 3	; 
+                 .equ	OCR1C4	= 4	; 
+                 .equ	OCR1C5	= 5	; 
+                 .equ	OCR1C6	= 6	; 
+                 .equ	OCR1C7	= 7	; 
+                 
+                 ; TIMSK - Timer/Counter Interrupt Mask Register
+                 .equ	TOIE1	= 2	; Timer/Counter1 Overflow Interrupt Enable
+                 .equ	OCIE1B	= 5	; OCIE1A: Timer/Counter1 Output Compare B Interrupt Enable
+                 .equ	OCIE1A	= 6	; OCIE1A: Timer/Counter1 Output Compare Interrupt Enable
+                 
+                 ; TIFR - Timer/Counter Interrupt Flag Register
+                 .equ	TOV1	= 2	; Timer/Counter1 Overflow Flag
+                 .equ	OCF1B	= 5	; Timer/Counter1 Output Compare Flag 1B
+                 .equ	OCF1A	= 6	; Timer/Counter1 Output Compare Flag 1A
+                 
+                 ; GTCCR - Timer counter control register
+                 .equ	PSR1	= 1	; Prescaler Reset Timer/Counter1
+                 .equ	FOC1A	= 2	; Force Output Compare 1A
+                 .equ	FOC1B	= 3	; Force Output Compare Match 1B
+                 .equ	COM1B0	= 4	; Comparator B Output Mode
+                 .equ	COM1B1	= 5	; Comparator B Output Mode
+                 .equ	PWM1B	= 6	; Pulse Width Modulator B Enable
+                 
+                 ; DTPS - Dead time prescaler register
+                 .equ	DTPS0	= 0	; 
+                 .equ	DTPS1	= 1	; 
+                 
+                 ; DT1A - Dead time value register
+                 .equ	DTVL0	= 0	; 
+                 .equ	DTVL1	= 1	; 
+                 .equ	DTVL2	= 2	; 
+                 .equ	DTVL3	= 3	; 
+                 .equ	DTVH0	= 4	; 
+                 .equ	DTVH1	= 5	; 
+                 .equ	DTVH2	= 6	; 
+                 .equ	DTVH3	= 7	; 
+                 
+                 ; DT1B - Dead time value B
+                 ;.equ	DTVL0	= 0	; 
+                 ;.equ	DTVL1	= 1	; 
+                 ;.equ	DTVL2	= 2	; 
+                 ;.equ	DTVL3	= 3	; 
+                 ;.equ	DTVH0	= 4	; 
+                 ;.equ	DTVH1	= 5	; 
+                 ;.equ	DTVH2	= 6	; 
+                 ;.equ	DTVH3	= 7	; 
+                 
+                 
+                 ; ***** CPU **************************
+                 ; SREG - Status Register
+                 .equ	SREG_C	= 0	; Carry Flag
+                 .equ	SREG_Z	= 1	; Zero Flag
+                 .equ	SREG_N	= 2	; Negative Flag
+                 .equ	SREG_V	= 3	; Two's Complement Overflow Flag
+                 .equ	SREG_S	= 4	; Sign Bit
+                 .equ	SREG_H	= 5	; Half Carry Flag
+                 .equ	SREG_T	= 6	; Bit Copy Storage
+                 .equ	SREG_I	= 7	; Global Interrupt Enable
+                 
+                 ; MCUCR - MCU Control Register
+                 ;.equ	ISC00	= 0	; Interrupt Sense Control 0 bit 0
+                 ;.equ	ISC01	= 1	; Interrupt Sense Control 0 bit 1
+                 .equ	BODSE	= 2	; BOD Sleep Enable
+                 .equ	SM0	= 3	; Sleep Mode Select Bit 0
+                 .equ	SM1	= 4	; Sleep Mode Select Bit 1
+                 .equ	SE	= 5	; Sleep Enable
+                 .equ	PUD	= 6	; Pull-up Disable
+                 .equ	BODS	= 7	; BOD Sleep
+                 
+                 ; MCUSR - MCU Status register
+                 .equ	PORF	= 0	; Power-On Reset Flag
+                 .equ	EXTRF	= 1	; External Reset Flag
+                 .equ	BORF	= 2	; Brown-out Reset Flag
+                 .equ	WDRF	= 3	; Watchdog Reset Flag
+                 
+                 ; PRR - Power Reduction Register
+                 .equ	PRADC	= 0	; Power Reduction ADC
+                 .equ	PRUSI	= 1	; Power Reduction USI
+                 .equ	PRTIM0	= 2	; Power Reduction Timer/Counter0
+                 .equ	PRTIM1	= 3	; Power Reduction Timer/Counter1
+                 
+                 ; OSCCAL - Oscillator Calibration Register
+                 .equ	CAL0	= 0	; Oscillatro Calibration Value Bit 0
+                 .equ	CAL1	= 1	; Oscillatro Calibration Value Bit 1
+                 .equ	CAL2	= 2	; Oscillatro Calibration Value Bit 2
+                 .equ	CAL3	= 3	; Oscillatro Calibration Value Bit 3
+                 .equ	CAL4	= 4	; Oscillatro Calibration Value Bit 4
+                 .equ	CAL5	= 5	; Oscillatro Calibration Value Bit 5
+                 .equ	CAL6	= 6	; Oscillatro Calibration Value Bit 6
+                 .equ	CAL7	= 7	; Oscillatro Calibration Value Bit 7
+                 
+                 ; PLLCSR - PLL Control and status register
+                 .equ	PLOCK	= 0	; PLL Lock detector
+                 .equ	PLLE	= 1	; PLL Enable
+                 .equ	PCKE	= 2	; PCK Enable
+                 .equ	LSM	= 7	; Low speed mode
+                 
+                 ; CLKPR - Clock Prescale Register
+                 .equ	CLKPS0	= 0	; Clock Prescaler Select Bit 0
+                 .equ	CLKPS1	= 1	; Clock Prescaler Select Bit 1
+                 .equ	CLKPS2	= 2	; Clock Prescaler Select Bit 2
+                 .equ	CLKPS3	= 3	; Clock Prescaler Select Bit 3
+                 .equ	CLKPCE	= 7	; Clock Prescaler Change Enable
+                 
+                 ; DWDR - debugWire data register
+                 .equ	DWDR0	= 0	; 
+                 .equ	DWDR1	= 1	; 
+                 .equ	DWDR2	= 2	; 
+                 .equ	DWDR3	= 3	; 
+                 .equ	DWDR4	= 4	; 
+                 .equ	DWDR5	= 5	; 
+                 .equ	DWDR6	= 6	; 
+                 .equ	DWDR7	= 7	; 
+                 
+                 ; GPIOR2 - General Purpose IO register 2
+                 .equ	GPIOR20	= 0	; 
+                 .equ	GPIOR21	= 1	; 
+                 .equ	GPIOR22	= 2	; 
+                 .equ	GPIOR23	= 3	; 
+                 .equ	GPIOR24	= 4	; 
+                 .equ	GPIOR25	= 5	; 
+                 .equ	GPIOR26	= 6	; 
+                 .equ	GPIOR27	= 7	; 
+                 
+                 ; GPIOR1 - General Purpose register 1
+                 .equ	GPIOR10	= 0	; 
+                 .equ	GPIOR11	= 1	; 
+                 .equ	GPIOR12	= 2	; 
+                 .equ	GPIOR13	= 3	; 
+                 .equ	GPIOR14	= 4	; 
+                 .equ	GPIOR15	= 5	; 
+                 .equ	GPIOR16	= 6	; 
+                 .equ	GPIOR17	= 7	; 
+                 
+                 ; GPIOR0 - General purpose register 0
+                 .equ	GPIOR00	= 0	; 
+                 .equ	GPIOR01	= 1	; 
+                 .equ	GPIOR02	= 2	; 
+                 .equ	GPIOR03	= 3	; 
+                 .equ	GPIOR04	= 4	; 
+                 .equ	GPIOR05	= 5	; 
+                 .equ	GPIOR06	= 6	; 
+                 .equ	GPIOR07	= 7	; 
+                 
+                 
+                 ; ***** BOOT_LOAD ********************
+                 ; SPMCSR - Store Program Memory Control Register
+                 .equ	SPMEN	= 0	; Store Program Memory Enable
+                 .equ	PGERS	= 1	; Page Erase
+                 .equ	PGWRT	= 2	; Page Write
+                 .equ	RFLB	= 3	; Read fuse and lock bits
+                 .equ	CTPB	= 4	; Clear temporary page buffer
+                 
+                 
+                 
+                 ; ***** LOCKSBITS ********************************************************
+                 .equ	LB1	= 0	; Lockbit
+                 .equ	LB2	= 1	; Lockbit
+                 
+                 
+                 ; ***** FUSES ************************************************************
+                 ; LOW fuse bits
+                 .equ	CKSEL0	= 0	; Select Clock source
+                 .equ	CKSEL1	= 1	; Select Clock source
+                 .equ	CKSEL2	= 2	; Select Clock source
+                 .equ	CKSEL3	= 3	; Select Clock source
+                 .equ	SUT0	= 4	; Select start-up time
+                 .equ	SUT1	= 5	; Select start-up time
+                 .equ	CKOUT	= 6	; Clock Output Enable
+                 .equ	CKDIV8	= 7	; Divide clock by 8
+                 
+                 ; HIGH fuse bits
+                 .equ	BODLEVEL0	= 0	; Brown-out Detector trigger level
+                 .equ	BODLEVEL1	= 1	; Brown-out Detector trigger level
+                 .equ	BODLEVEL2	= 2	; Brown-out Detector trigger level
+                 .equ	EESAVE	= 3	; EEPROM memory is preserved through the Chip Erase
+                 .equ	WDTON	= 4	; Watchdog Timer always on
+                 .equ	SPIEN	= 5	; Enable Serial Program and Data Downloading
+                 .equ	DWEN	= 6	; DebugWIRE Enable
+                 .equ	RSTDISBL	= 7	; External Reset disable
+                 
+                 ; EXTENDED fuse bits
+                 .equ	SELFPRGEN	= 0	; Self-Programming Enable
+                 
+                 
+                 
+                 ; ***** CPU REGISTER DEFINITIONS *****************************************
+                 .def	XH	= r27
+                 .def	XL	= r26
+                 .def	YH	= r29
+                 .def	YL	= r28
+                 .def	ZH	= r31
+                 .def	ZL	= r30
+                 
+                 
+                 
+                 ; ***** DATA MEMORY DECLARATIONS *****************************************
+                 .equ	FLASHEND	= 0x07ff	; Note: Word address
+                 .equ	IOEND	= 0x003f
+                 .equ	SRAM_START	= 0x0060
+                 .equ	SRAM_SIZE	= 256
+                 .equ	RAMEND	= 0x015f
+                 .equ	XRAMEND	= 0x0000
+                 .equ	E2END	= 0x00ff
+                 .equ	EEPROMEND	= 0x00ff
+                 .equ	EEADRBITS	= 8
+                 #pragma AVRPART MEMORY PROG_FLASH 4096
+                 #pragma AVRPART MEMORY EEPROM 256
+                 #pragma AVRPART MEMORY INT_SRAM SIZE 256
+                 #pragma AVRPART MEMORY INT_SRAM START_ADDR 0x60
+                 
+                 
+                 
+                 ; ***** BOOTLOADER DECLARATIONS ******************************************
+                 .equ	NRWW_START_ADDR	= 0x0
+                 .equ	NRWW_STOP_ADDR	= 0x7ff
+                 .equ	RWW_START_ADDR	= 0x0
+                 .equ	RWW_STOP_ADDR	= 0x0
+                 .equ	PAGESIZE	= 32
+                 
+                 
+                 
+                 ; ***** INTERRUPT VECTORS ************************************************
+                 .equ	INT0addr	= 0x0001	; External Interrupt 0
+                 .equ	PCI0addr	= 0x0002	; Pin change Interrupt Request 0
+                 .equ	OC1Aaddr	= 0x0003	; Timer/Counter1 Compare Match 1A
+                 .equ	OVF1addr	= 0x0004	; Timer/Counter1 Overflow
+                 .equ	OVF0addr	= 0x0005	; Timer/Counter0 Overflow
+                 .equ	ERDYaddr	= 0x0006	; EEPROM Ready
+                 .equ	ACIaddr	= 0x0007	; Analog comparator
+                 .equ	ADCCaddr	= 0x0008	; ADC Conversion ready
+                 .equ	OC1Baddr	= 0x0009	; Timer/Counter1 Compare Match B
+                 .equ	OC0Aaddr	= 0x000a	; Timer/Counter0 Compare Match A
+                 .equ	OC0Baddr	= 0x000b	; Timer/Counter0 Compare Match B
+                 .equ	WDTaddr	= 0x000c	; Watchdog Time-out
+                 .equ	USI_STARTaddr	= 0x000d	; USI START
+                 .equ	USI_OVFaddr	= 0x000e	; USI Overflow
+                 
+                 .equ	INT_VECTORS_SIZE	= 15	; size in words
+                 
+                 #endif  /* _TN45DEF_INC_ */
+                 
+                 ; ***** END OF FILE ******************************************************
+                 
+                  * PRESENT_sbox.asm
+                  *
+                  *  Created: 11-Jul-13 9:45:00 PM
+                  *   Author: airwizard
+                  */ 
+                 
+                   
+                  .org 0x0600
+                  //Byte address:  0x0600
+                 
+                  sbox256:
+000600 c1c0
+000601 c3c2
+000602 c5c4
+000603 c7c6
+000604 c9c8
+000605 cbca
+000606 cdcc
+000607 cfce      .db 0xC0, 0xC1, 0xC2, 0xC3, 0xC4, 0xC5, 0xC6, 0xC7, 0xC8, 0xC9, 0xCA, 0xCB, 0xCC, 0xCD, 0xCE, 0xCF
+000608 5150
+000609 5352
+00060a 5554
+00060b 5756
+00060c 5958
+00060d 5b5a
+00060e 5d5c
+00060f 5f5e      .db 0x50, 0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5A, 0x5B, 0x5C, 0x5D, 0x5E, 0x5F
+000610 6160
+000611 6362
+000612 6564
+000613 6766
+000614 6968
+000615 6b6a
+000616 6d6c
+000617 6f6e      .db 0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F
+000618 b1b0
+000619 b3b2
+00061a b5b4
+00061b b7b6
+00061c b9b8
+00061d bbba
+00061e bdbc
+00061f bfbe      .db 0xB0, 0xB1, 0xB2, 0xB3, 0xB4, 0xB5, 0xB6, 0xB7, 0xB8, 0xB9, 0xBA, 0xBB, 0xBC, 0xBD, 0xBE, 0xBF
+000620 9190
+000621 9392
+000622 9594
+000623 9796
+000624 9998
+000625 9b9a
+000626 9d9c
+000627 9f9e      .db 0x90, 0x91, 0x92, 0x93, 0x94, 0x95, 0x96, 0x97, 0x98, 0x99, 0x9A, 0x9B, 0x9C, 0x9D, 0x9E, 0x9F
+000628 0100
+000629 0302
+00062a 0504
+00062b 0706
+00062c 0908
+00062d 0b0a
+00062e 0d0c
+00062f 0f0e      .db 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
+000630 a1a0
+000631 a3a2
+000632 a5a4
+000633 a7a6
+000634 a9a8
+000635 abaa
+000636 adac
+000637 afae      .db 0xA0, 0xA1, 0xA2, 0xA3, 0xA4, 0xA5, 0xA6, 0xA7, 0xA8, 0xA9, 0xAA, 0xAB, 0xAC, 0xAD, 0xAE, 0xAF
+000638 d1d0
+000639 d3d2
+00063a d5d4
+00063b d7d6
+00063c d9d8
+00063d dbda
+00063e dddc
+00063f dfde      .db 0xD0, 0xD1, 0xD2, 0xD3, 0xD4, 0xD5, 0xD6, 0xD7, 0xD8, 0xD9, 0xDA, 0xDB, 0xDC, 0xDD, 0xDE, 0xDF
+000640 3130
+000641 3332
+000642 3534
+000643 3736
+000644 3938
+000645 3b3a
+000646 3d3c
+000647 3f3e      .db 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F
+000648 e1e0
+000649 e3e2
+00064a e5e4
+00064b e7e6
+00064c e9e8
+00064d ebea
+00064e edec
+00064f efee      .db 0xE0, 0xE1, 0xE2, 0xE3, 0xE4, 0xE5, 0xE6, 0xE7, 0xE8, 0xE9, 0xEA, 0xEB, 0xEC, 0xED, 0xEE, 0xEF
+000650 f1f0
+000651 f3f2
+000652 f5f4
+000653 f7f6
+000654 f9f8
+000655 fbfa
+000656 fdfc
+000657 fffe      .db 0xF0, 0xF1, 0xF2, 0xF3, 0xF4, 0xF5, 0xF6, 0xF7, 0xF8, 0xF9, 0xFA, 0xFB, 0xFC, 0xFD, 0xFE, 0xFF
+000658 8180
+000659 8382
+00065a 8584
+00065b 8786
+00065c 8988
+00065d 8b8a
+00065e 8d8c
+00065f 8f8e      .db 0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8A, 0x8B, 0x8C, 0x8D, 0x8E, 0x8F
+000660 4140
+000661 4342
+000662 4544
+000663 4746
+000664 4948
+000665 4b4a
+000666 4d4c
+000667 4f4e      .db 0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x4F
+000668 7170
+000669 7372
+00066a 7574
+00066b 7776
+00066c 7978
+00066d 7b7a
+00066e 7d7c
+00066f 7f7e      .db 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F
+000670 1110
+000671 1312
+000672 1514
+000673 1716
+000674 1918
+000675 1b1a
+000676 1d1c
+000677 1f1e      .db 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
+000678 2120
+000679 2322
+00067a 2524
+00067b 2726
+00067c 2928
+00067d 2b2a
+00067e 2d2c
+00067f 2f2e      .db 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F
+                 
+                 
+                 
+                 /* Start of program. */
+                  /*
+                  Here is what we found online: PRESENT sbox with 15gates
+                 
+                   T1 = X2 ^ X1;
+                   T2 = X1 & T1;
+                   T3 = X0 ^ T2;
+                   *Y3 = X3 ^ T3;
+                   T2 = T1 & T3;
+                   T1 ^= (*Y3);
+                   T2 ^= X1;
+                   T4 = X3 | T2;
+                   *Y2 = T1 ^ T4;
+                   T2 ^= (~X3);
+                   *Y0 = (*Y2) ^ T2;
+                   T2 |= T1;
+                   *Y1 = T3 ^ T2;
+                 
+                   */
+                 
+                 
+                  .include "tn45def.inc"
+                 
+                 ;***** Created: 2011-02-09 12:04 ******* Source: ATtiny45.xml ************
+                 ;*************************************************************************
+                 ;* A P P L I C A T I O N   N O T E   F O R   T H E   A V R   F A M I L Y
+                 ;* 
+                 ;* Number            : AVR000
+                 ;* File Name         : "tn45def.inc"
+                 ;* Title             : Register/Bit Definitions for the ATtiny45
+                 ;* Date              : 2011-02-09
+                 ;* Version           : 2.35
+                 ;* Support E-mail    : avr@atmel.com
+                 ;* Target MCU        : ATtiny45
+                 ;* 
+                 ;* DESCRIPTION
+                 ;* When including this file in the assembly program file, all I/O register 
+                 ;* names and I/O register bit names appearing in the data book can be used.
+                 ;* In addition, the six registers forming the three data pointers X, Y and 
+                 ;* Z have been assigned names XL - ZH. Highest RAM address for Internal 
+                 ;* SRAM is also defined 
+                 ;* 
+                 ;* The Register names are represented by their hexadecimal address.
+                 ;* 
+                 ;* The Register Bit names are represented by their bit number (0-7).
+                 ;* 
+                 ;* Please observe the difference in using the bit names with instructions
+                 ;* such as "sbr"/"cbr" (set/clear bit in register) and "sbrs"/"sbrc"
+                 ;* (skip if bit in register set/cleared). The following example illustrates
+                 ;* this:
+                 ;* 
+                 ;* in    r16,PORTB             ;read PORTB latch
+                 ;* sbr   r16,(1<<PB6)+(1<<PB5) ;set PB6 and PB5 (use masks, not bit#)
+                 ;* out   PORTB,r16             ;output to PORTB
+                 ;* 
+                 ;* in    r16,TIFR              ;read the Timer Interrupt Flag Register
+                 ;* sbrc  r16,TOV0              ;test the overflow flag (use bit#)
+                 ;* rjmp  TOV0_is_set           ;jump if set
+                 ;* ...                         ;otherwise do something else
+                 ;*************************************************************************
+                 
+                 #ifndef _TN45DEF_INC_
+                 #endif  /* _TN45DEF_INC_ */
+                 
+                 ; ***** END OF FILE ******************************************************
+                  
+                  .def x0=r16
+                  .def x1=r17
+                  .def x2=r18
+                  .def x3=r19
+                 
+                  .def t1=r18
+                  .def t2=r21
+                  .def t3=r16
+                  .def t4=r20
+                 
+                  .def y0=r22
+                  .def y1=r16
+                  .def y2=r20
+                  .def y3=r23
+                 
+                  //counter
+                  .def counter=r24
+                  
+                 
+                 
+                  //Initial key is 0
+                  
+                  // [Add key initilization here if needed]
+                 
+                  .def k0=r0
+                  .def k1=r1
+                  .def k2=r2
+                  .def k3=r3
+                  .def k4=r4
+                  .def k5=r5
+                  .def k6=r6
+                  .def k7=r7
+                  .def k8=r8
+                  .def k9=r9
+                 
+                  //shifted key
+                  .def k10=r10
+                  .def k11=r11
+                 
+                  //Memory offset
+                  .def flag=r25
+                  
+                  //constant
+                  .def vff=r26
+                  
+                 
+                  .org 0x00
+                 //[initialize counter to zero]
+000000 2788      eor counter,counter
+000001 95a0      com vff
+                 
+                 LOOP_BEGINNING:
+                  //++++++++++++++++++++ SP NETWORK ++++++++++++++++++++++++++++
+                 
+                  //loading bit0-3
+                 
+000002 9100 0060 lds x0, $60
+000004 9110 0061 lds x1, $61
+000006 9120 0062 lds x2, $62
+000008 9130 0063 lds x3, $63
+                  
+                 
+00000a fc90       sbrc k9, 0
+00000b 270a      eor x0, vff
+00000c fc91      sbrc k9, 1
+00000d 271a      eor x1, vff
+00000e fc92      sbrc k9, 2
+00000f 272a      eor x2, vff
+000010 fc93      sbrc k9, 3
+000011 273a      eor x3, vff
+                 
+                 
+                  // 4bit SBOX in 19 clock cycles (fucking-A)
+                  // 1178 clock cycles per block
+                 
+000012 2721       eor t1,x1 
+                 
+000013 2f51       mov t2,x1
+000014 2352       and t2,t1
+                 
+000015 2705       eor t3,t2
+                 
+000016 2f73       mov y3,x3
+000017 2770       eor y3,t3
+                 
+000018 2f52       mov t2,t1
+000019 2350       and t2,t3
+                 
+00001a 2727       eor t1,y3
+                 
+00001b 2751       eor t2,x1
+                 
+00001c 2f43       mov t4,x3
+00001d 2b45       or t4,t2
+                 
+00001e 2742       eor y2,t1
+                 
+00001f 9530       com x3
+000020 2753       eor t2,x3
+                 
+000021 2f64       mov y0,y2
+000022 2765       eor y0,t2
+                 
+000023 2b52       or t2,t1
+                 
+000024 2705       eor t3,t2
+                 
+                  //end of SBOX
+                 
+                 
+                  // Permuation of bit0-3
+000025 9360 00a0  sts $a0, y0
+000027 9300 00b0 sts $b0, y1
+000029 9340 00c0 sts $c0, y2
+00002b 9370 00d0 sts $d0, y3
+                 
+                 
+                 
+                  //loading bit4-7
+                 
+00002d 9100 0064 lds x0, $64
+00002f 9110 0065 lds x1, $65
+000031 9120 0066 lds x2, $66
+000033 9130 0067 lds x3, $67
+                  
+                 
+                 
+                  
+000035 fc94      sbrc k9, 4
+000036 270a      eor x0, vff
+000037 fc95      sbrc k9, 5
+000038 271a      eor x1, vff
+000039 fc96      sbrc k9, 6
+00003a 272a      eor x2, vff
+00003b fc97      sbrc k9, 7
+00003c 273a      eor x3, vff
+                 
+                 
+                 
+                  // 4bit SBOX in 19 clock cycles (fucking-A)
+                  // 1178 clock cycles per block
+                 
+00003d 2721       eor t1,x1 
+                 
+00003e 2f51       mov t2,x1
+00003f 2352       and t2,t1
+                 
+000040 2705       eor t3,t2
+                 
+000041 2f73       mov y3,x3
+000042 2770       eor y3,t3
+                 
+000043 2f52       mov t2,t1
+000044 2350       and t2,t3
+                 
+000045 2727       eor t1,y3
+                 
+000046 2751       eor t2,x1
+                 
+000047 2f43       mov t4,x3
+000048 2b45       or t4,t2
+                 
+000049 2742       eor y2,t1
+                 
+00004a 9530       com x3
+00004b 2753       eor t2,x3
+                 
+00004c 2f64       mov y0,y2
+00004d 2765       eor y0,t2
+                 
+00004e 2b52       or t2,t1
+                 
+00004f 2705       eor t3,t2
+                 
+                  //end of SBOX
+                 
+                 
+                  // Permuation of bit4-7
+000050 9360 00a1  sts $a1, y0
+000052 9300 00b1 sts $b1, y1
+000054 9340 00c1 sts $c1, y2
+000056 9370 00d1 sts $d1, y3
+                 
+                  //loading bit8-11
+                 
+000058 9100 0068 lds x0, $68
+00005a 9110 0069 lds x1, $69
+00005c 9120 006a lds x2, $6a
+00005e 9130 006b lds x3, $6b
+                  
+                  
+                 
+000060 fc80      sbrc k8, 0
+000061 270a      eor x0, vff
+000062 fc81      sbrc k8, 1
+000063 271a      eor x1, vff
+000064 fc82      sbrc k8, 2
+000065 272a      eor x2, vff
+000066 fc83      sbrc k8, 3
+000067 273a      eor x3, vff
+                 
+                 
+                 
+                  // 4bit SBOX in 19 clock cycles (fucking-A)
+                  // 1178 clock cycles per block
+                 
+000068 2721       eor t1,x1 
+                 
+000069 2f51       mov t2,x1
+00006a 2352       and t2,t1
+                 
+00006b 2705       eor t3,t2
+                 
+00006c 2f73       mov y3,x3
+00006d 2770       eor y3,t3
+                 
+00006e 2f52       mov t2,t1
+00006f 2350       and t2,t3
+                 
+000070 2727       eor t1,y3
+                 
+000071 2751       eor t2,x1
+                 
+000072 2f43       mov t4,x3
+000073 2b45       or t4,t2
+                 
+000074 2742       eor y2,t1
+                 
+000075 9530       com x3
+000076 2753       eor t2,x3
+                 
+000077 2f64       mov y0,y2
+000078 2765       eor y0,t2
+                 
+000079 2b52       or t2,t1
+                 
+00007a 2705       eor t3,t2
+                 
+                  //end of SBOX
+                 
+                 
+                  // Permuation of bit8-11
+                  
+00007b 9360 00a2 sts $a2, y0
+00007d 9300 00b2 sts $b2, y1
+00007f 9340 00c2 sts $c2, y2
+000081 9370 00d2 sts $d2, y3
+                 
+                 
+                  //loading bit12-15
+                 
+000083 9100 006c lds x0, $6c
+000085 9110 006d lds x1, $6d
+000087 9120 006e lds x2, $6e
+000089 9130 006f lds x3, $6f
+                  
+                  
+00008b fc84      sbrc k8, 4
+00008c 270a      eor x0, vff
+00008d fc85      sbrc k8, 5
+00008e 271a      eor x1, vff
+00008f fc86      sbrc k8, 6
+000090 272a      eor x2, vff
+000091 fc87      sbrc k8, 7
+000092 273a      eor x3, vff
+                 
+                  // 4bit SBOX in 19 clock cycles (fucking-A)
+                  // 1178 clock cycles per block
+                 
+000093 2721       eor t1,x1 
+                 
+000094 2f51       mov t2,x1
+000095 2352       and t2,t1
+                 
+000096 2705       eor t3,t2
+                 
+000097 2f73       mov y3,x3
+000098 2770       eor y3,t3
+                 
+000099 2f52       mov t2,t1
+00009a 2350       and t2,t3
+                 
+00009b 2727       eor t1,y3
+                 
+00009c 2751       eor t2,x1
+                 
+00009d 2f43       mov t4,x3
+00009e 2b45       or t4,t2
+                 
+00009f 2742       eor y2,t1
+                 
+0000a0 9530       com x3
+0000a1 2753       eor t2,x3
+                 
+0000a2 2f64       mov y0,y2
+0000a3 2765       eor y0,t2
+                 
+0000a4 2b52       or t2,t1
+                 
+0000a5 2705       eor t3,t2
+                 
+                  //end of SBOX
+                 
+                 
+                  // Permuation of bit12-15
+0000a6 9360 00a3  sts $a3, y0
+0000a8 9300 00b3 sts $b3, y1
+0000aa 9340 00c3 sts $c3, y2
+0000ac 9370 00d3 sts $d3, y3
+                  //loading bit16-19
+                 
+                  
+                 
+                 
+                  
+0000ae 9100 0070 lds x0, $70
+0000b0 9110 0071 lds x1, $71
+0000b2 9120 0072 lds x2, $72
+0000b4 9130 0073 lds x3, $73
+                 
+                 
+0000b6 fc70      sbrc k7, 0
+0000b7 270a      eor x0, vff
+0000b8 fc71      sbrc k7, 1
+0000b9 271a      eor x1, vff
+0000ba fc72      sbrc k7, 2
+0000bb 272a      eor x2, vff
+0000bc fc73      sbrc k7, 3
+0000bd 273a      eor x3, vff
+                 
+                 
+                  // 4bit SBOX in 19 clock cycles (fucking-A)
+                  // 1178 clock cycles per block
+                 
+0000be 2721       eor t1,x1 
+                 
+0000bf 2f51       mov t2,x1
+0000c0 2352       and t2,t1
+                 
+0000c1 2705       eor t3,t2
+                 
+0000c2 2f73       mov y3,x3
+0000c3 2770       eor y3,t3
+                 
+0000c4 2f52       mov t2,t1
+0000c5 2350       and t2,t3
+                 
+0000c6 2727       eor t1,y3
+                 
+0000c7 2751       eor t2,x1
+                 
+0000c8 2f43       mov t4,x3
+0000c9 2b45       or t4,t2
+                 
+0000ca 2742       eor y2,t1
+                 
+0000cb 9530       com x3
+0000cc 2753       eor t2,x3
+                 
+0000cd 2f64       mov y0,y2
+0000ce 2765       eor y0,t2
+                 
+0000cf 2b52       or t2,t1
+                 
+0000d0 2705       eor t3,t2
+                 
+                  //end of SBOX
+                 
+                 
+                  // Permuation of bit17-19
+                 
+0000d1 9360 00a4  sts $a4, y0
+0000d3 9300 00b4 sts $b4, y1
+0000d5 9340 00c4 sts $c4, y2
+0000d7 9370 00d4 sts $d4, y3
+                 
+                  //loading bit20-23
+                 
+                  
+0000d9 9100 0074 lds x0, $74
+0000db 9110 0075 lds x1, $75
+0000dd 9120 0076 lds x2, $76
+0000df 9130 0077 lds x3, $77
+                  
+                  
+0000e1 fc74      sbrc k7, 4
+0000e2 270a      eor x0, vff
+0000e3 fc75      sbrc k7, 5
+0000e4 271a      eor x1, vff
+0000e5 fc76      sbrc k7, 6
+0000e6 272a      eor x2, vff
+0000e7 fc77      sbrc k7, 7
+0000e8 273a      eor x3, vff
+                 
+                 
+                 
+                  // 4bit SBOX in 19 clock cycles (fucking-A)
+                  // 1178 clock cycles per block
+                 
+0000e9 2721       eor t1,x1 
+                 
+0000ea 2f51       mov t2,x1
+0000eb 2352       and t2,t1
+                 
+0000ec 2705       eor t3,t2
+                 
+0000ed 2f73       mov y3,x3
+0000ee 2770       eor y3,t3
+                 
+0000ef 2f52       mov t2,t1
+0000f0 2350       and t2,t3
+                 
+0000f1 2727       eor t1,y3
+                 
+0000f2 2751       eor t2,x1
+                 
+0000f3 2f43       mov t4,x3
+0000f4 2b45       or t4,t2
+                 
+0000f5 2742       eor y2,t1
+                 
+0000f6 9530       com x3
+0000f7 2753       eor t2,x3
+                 
+0000f8 2f64       mov y0,y2
+0000f9 2765       eor y0,t2
+                 
+0000fa 2b52       or t2,t1
+                 
+0000fb 2705       eor t3,t2
+                 
+                  //end of SBOX
+                 
+                 
+                  // Permuation of bit20-23
+                 
+                  
+0000fc 9360 00a5 sts $a5, y0
+0000fe 9300 00b5 sts $b5, y1
+000100 9340 00c5 sts $c5, y2
+000102 9370 00d5 sts $d5, y3
+                 
+                 
+                  //loading bit24-27
+                 
+                  
+000104 9100 0078 lds x0, $78
+000106 9110 0079 lds x1, $79
+000108 9120 007a lds x2, $7a
+00010a 9130 007b lds x3, $7b
+                 
+                 
+00010c fc60      sbrc k6, 0
+00010d 270a      eor x0, vff
+00010e fc61      sbrc k6, 1
+00010f 271a      eor x1, vff
+000110 fc62      sbrc k6, 2
+000111 272a      eor x2, vff
+000112 fc63      sbrc k6, 3
+000113 273a      eor x3, vff
+                 
+                 
+                 
+                  // 4bit SBOX in 19 clock cycles (fucking-A)
+                  // 1178 clock cycles per block
+                 
+000114 2721       eor t1,x1 
+                 
+000115 2f51       mov t2,x1
+000116 2352       and t2,t1
+                 
+000117 2705       eor t3,t2
+                 
+000118 2f73       mov y3,x3
+000119 2770       eor y3,t3
+                 
+00011a 2f52       mov t2,t1
+00011b 2350       and t2,t3
+                 
+00011c 2727       eor t1,y3
+                 
+00011d 2751       eor t2,x1
+                 
+00011e 2f43       mov t4,x3
+00011f 2b45       or t4,t2
+                 
+000120 2742       eor y2,t1
+                 
+000121 9530       com x3
+000122 2753       eor t2,x3
+                 
+000123 2f64       mov y0,y2
+000124 2765       eor y0,t2
+                 
+000125 2b52       or t2,t1
+                 
+000126 2705       eor t3,t2
+                 
+                  //end of SBOX
+                 
+                 
+                 
+                  // Permuation of bit24-27
+                 
+000127 9360 00a6  sts $a6, y0
+000129 9300 00b6 sts $b6, y1
+00012b 9340 00c6 sts $c6, y2
+00012d 9370 00d6 sts $d6, y3
+                 
+                  //loading bit28-31
+                 
+00012f 9100 007c lds x0, $7c
+000131 9110 007d lds x1, $7d
+000133 9120 007e lds x2, $7e
+000135 9130 007f lds x3, $7f
+                 
+                 
+                 
+000137 fc64      sbrc k6, 4
+000138 270a      eor x0, vff
+000139 fc65      sbrc k6, 5
+00013a 271a      eor x1, vff
+00013b fc66      sbrc k6, 6
+00013c 272a      eor x2, vff
+00013d fc67      sbrc k6, 7
+00013e 273a      eor x3, vff
+                  // 4bit SBOX in 19 clock cycles (fucking-A)
+                  // 1178 clock cycles per block
+                 
+00013f 2721       eor t1,x1 
+                 
+000140 2f51       mov t2,x1
+000141 2352       and t2,t1
+                 
+000142 2705       eor t3,t2
+                 
+000143 2f73       mov y3,x3
+000144 2770       eor y3,t3
+                 
+000145 2f52       mov t2,t1
+000146 2350       and t2,t3
+                 
+000147 2727       eor t1,y3
+                 
+000148 2751       eor t2,x1
+                 
+000149 2f43       mov t4,x3
+00014a 2b45       or t4,t2
+                 
+00014b 2742       eor y2,t1
+                 
+00014c 9530       com x3
+00014d 2753       eor t2,x3
+                 
+00014e 2f64       mov y0,y2
+00014f 2765       eor y0,t2
+                 
+000150 2b52       or t2,t1
+                 
+000151 2705       eor t3,t2
+                 
+                  //end of SBOX
+                 
+                 
+                  // Permuation of bit28-31
+000152 9360 00a7  sts $a7, y0
+000154 9300 00b7 sts $b7, y1
+000156 9340 00c7 sts $c7, y2
+000158 9370 00d7 sts $d7, y3
+                  //loading bit32-35
+                 
+00015a 9100 0080  lds x0, $80
+00015c 9110 0081 lds x1, $81
+00015e 9120 0082 lds x2, $82
+000160 9130 0083 lds x3, $83
+                  
+                  
+000162 fc50      sbrc k5, 0
+000163 270a      eor x0, vff
+000164 fc51      sbrc k5, 1
+000165 271a      eor x1, vff
+000166 fc52      sbrc k5, 2
+000167 272a      eor x2, vff
+000168 fc53      sbrc k5, 3
+000169 273a      eor x3, vff
+                 
+                 
+                  // 4bit SBOX in 19 clock cycles (fucking-A)
+                  // 1178 clock cycles per block
+                 
+00016a 2721       eor t1,x1 
+                 
+00016b 2f51       mov t2,x1
+00016c 2352       and t2,t1
+                 
+00016d 2705       eor t3,t2
+                 
+00016e 2f73       mov y3,x3
+00016f 2770       eor y3,t3
+                 
+000170 2f52       mov t2,t1
+000171 2350       and t2,t3
+                 
+000172 2727       eor t1,y3
+                 
+000173 2751       eor t2,x1
+                 
+000174 2f43       mov t4,x3
+000175 2b45       or t4,t2
+                 
+000176 2742       eor y2,t1
+                 
+000177 9530       com x3
+000178 2753       eor t2,x3
+                 
+000179 2f64       mov y0,y2
+00017a 2765       eor y0,t2
+                 
+00017b 2b52       or t2,t1
+                 
+00017c 2705       eor t3,t2
+                 
+                  //end of SBOX
+                 
+                 
+                 
+                  // Permuation of bit32-35
+00017d 9360 00a8  sts $a8, y0
+00017f 9300 00b8 sts $b8, y1
+000181 9340 00c8 sts $c8, y2
+000183 9370 00d8 sts $d8, y3
+                 
+                  //loading bit36-39
+                 
+000185 9100 0084  lds x0, $84
+000187 9110 0085 lds x1, $85
+000189 9120 0086 lds x2, $86
+00018b 9130 0087 lds x3, $87
+                  
+00018d fc54      sbrc k5, 4
+00018e 270a      eor x0, vff
+00018f fc55      sbrc k5, 5
+000190 271a      eor x1, vff
+000191 fc56      sbrc k5, 6
+000192 272a      eor x2, vff
+000193 fc57      sbrc k5, 7
+000194 273a      eor x3, vff
+                 
+                 
+                  // 4bit SBOX in 19 clock cycles (fucking-A)
+                  // 1178 clock cycles per block
+                 
+000195 2721       eor t1,x1 
+                 
+000196 2f51       mov t2,x1
+000197 2352       and t2,t1
+                 
+000198 2705       eor t3,t2
+                 
+000199 2f73       mov y3,x3
+00019a 2770       eor y3,t3
+                 
+00019b 2f52       mov t2,t1
+00019c 2350       and t2,t3
+                 
+00019d 2727       eor t1,y3
+                 
+00019e 2751       eor t2,x1
+                 
+00019f 2f43       mov t4,x3
+0001a0 2b45       or t4,t2
+                 
+0001a1 2742       eor y2,t1
+                 
+0001a2 9530       com x3
+0001a3 2753       eor t2,x3
+                 
+0001a4 2f64       mov y0,y2
+0001a5 2765       eor y0,t2
+                 
+0001a6 2b52       or t2,t1
+                 
+0001a7 2705       eor t3,t2
+                 
+                  //end of SBOX
+                 
+                 
+                  // Permuation of bit36-39
+                  
+0001a8 9360 00a9 sts $a9, y0
+0001aa 9300 00b9 sts $b9, y1
+0001ac 9340 00c9 sts $c9, y2
+0001ae 9370 00d9 sts $d9, y3
+                  //loading bit40-43
+                 
+0001b0 9100 0088  lds x0, $88
+0001b2 9110 0089 lds x1, $89
+0001b4 9120 008a lds x2, $8a
+0001b6 9130 008b lds x3, $8b
+                 
+                 
+                 
+0001b8 fc40      sbrc k4, 0
+0001b9 270a      eor x0, vff
+0001ba fc41      sbrc k4, 1
+0001bb 271a      eor x1, vff
+0001bc fc42      sbrc k4, 2
+0001bd 272a      eor x2, vff
+0001be fc43      sbrc k4, 3
+0001bf 273a      eor x3, vff
+                 
+                  // 4bit SBOX in 19 clock cycles (fucking-A)
+                  // 1178 clock cycles per block
+                 
+0001c0 2721       eor t1,x1 
+                 
+0001c1 2f51       mov t2,x1
+0001c2 2352       and t2,t1
+                 
+0001c3 2705       eor t3,t2
+                 
+0001c4 2f73       mov y3,x3
+0001c5 2770       eor y3,t3
+                 
+0001c6 2f52       mov t2,t1
+0001c7 2350       and t2,t3
+                 
+0001c8 2727       eor t1,y3
+                 
+0001c9 2751       eor t2,x1
+                 
+0001ca 2f43       mov t4,x3
+0001cb 2b45       or t4,t2
+                 
+0001cc 2742       eor y2,t1
+                 
+0001cd 9530       com x3
+0001ce 2753       eor t2,x3
+                 
+0001cf 2f64       mov y0,y2
+0001d0 2765       eor y0,t2
+                 
+0001d1 2b52       or t2,t1
+                 
+0001d2 2705       eor t3,t2
+                 
+                  //end of SBOX
+                 
+                 
+                 
+                  // Permuation of bit40-43
+0001d3 9360 00aa  sts $aa, y0
+0001d5 9300 00ba sts $ba, y1
+0001d7 9340 00ca sts $ca, y2
+0001d9 9370 00da sts $da, y3
+                 
+                  //loading bit44-47
+                 
+                  
+0001db 9100 008c lds x0, $8c
+0001dd 9110 008d lds x1, $8d
+0001df 9120 008e lds x2, $8e
+0001e1 9130 008f lds x3, $8f
+                 
+                 
+                 
+0001e3 fc44      sbrc k4, 4
+0001e4 270a      eor x0, vff
+0001e5 fc45      sbrc k4, 5
+0001e6 271a      eor x1, vff
+0001e7 fc46      sbrc k4, 6
+0001e8 272a      eor x2, vff
+0001e9 fc47      sbrc k4, 7
+0001ea 273a      eor x3, vff
+                 
+                  // 4bit SBOX in 19 clock cycles (fucking-A)
+                  // 1178 clock cycles per block
+                 
+0001eb 2721       eor t1,x1 
+                 
+0001ec 2f51       mov t2,x1
+0001ed 2352       and t2,t1
+                 
+0001ee 2705       eor t3,t2
+                 
+0001ef 2f73       mov y3,x3
+0001f0 2770       eor y3,t3
+                 
+0001f1 2f52       mov t2,t1
+0001f2 2350       and t2,t3
+                 
+0001f3 2727       eor t1,y3
+                 
+0001f4 2751       eor t2,x1
+                 
+0001f5 2f43       mov t4,x3
+0001f6 2b45       or t4,t2
+                 
+0001f7 2742       eor y2,t1
+                 
+0001f8 9530       com x3
+0001f9 2753       eor t2,x3
+                 
+0001fa 2f64       mov y0,y2
+0001fb 2765       eor y0,t2
+                 
+0001fc 2b52       or t2,t1
+                 
+0001fd 2705       eor t3,t2
+                 
+                  //end of SBOX
+                 
+                 
+                  // Permuation of bit44-47
+0001fe 9360 00ab  sts $ab, y0
+000200 9300 00bb sts $bb, y1
+000202 9340 00cb sts $cb, y2
+000204 9370 00db sts $db, y3
+                  //loading bit48-51
+                 
+                 
+000206 9100 0090  lds x0, $90
+000208 9110 0091 lds x1, $91
+00020a 9120 0092 lds x2, $92
+00020c 9130 0093 lds x3, $93
+                 
+00020e fc30      sbrc k3, 0
+00020f 270a      eor x0, vff
+000210 fc31      sbrc k3, 1
+000211 271a      eor x1, vff
+000212 fc32      sbrc k3, 2
+000213 272a      eor x2, vff
+000214 fc33      sbrc k3, 3
+000215 273a      eor x3, vff
+                 
+                 
+                  // 4bit SBOX in 19 clock cycles (fucking-A)
+                  // 1178 clock cycles per block
+                 
+000216 2721       eor t1,x1 
+                 
+000217 2f51       mov t2,x1
+000218 2352       and t2,t1
+                 
+000219 2705       eor t3,t2
+                 
+00021a 2f73       mov y3,x3
+00021b 2770       eor y3,t3
+                 
+00021c 2f52       mov t2,t1
+00021d 2350       and t2,t3
+                 
+00021e 2727       eor t1,y3
+                 
+00021f 2751       eor t2,x1
+                 
+000220 2f43       mov t4,x3
+000221 2b45       or t4,t2
+                 
+000222 2742       eor y2,t1
+                 
+000223 9530       com x3
+000224 2753       eor t2,x3
+                 
+000225 2f64       mov y0,y2
+000226 2765       eor y0,t2
+                 
+000227 2b52       or t2,t1
+                 
+000228 2705       eor t3,t2
+                 
+                  //end of SBOX
+                 
+                 
+                 
+                  // Permuation of bit48-51
+000229 9360 00ac  sts $ac, y0
+00022b 9300 00bc sts $bc, y1
+00022d 9340 00cc sts $cc, y2
+00022f 9370 00dc sts $dc, y3
+                 
+                  //loading bit52-55
+                 
+                 
+000231 9100 0094  lds x0, $94
+000233 9110 0095 lds x1, $95
+000235 9120 0096 lds x2, $96
+000237 9130 0097 lds x3, $97
+                 
+                 
+000239 fc34      sbrc k3, 4
+00023a 270a      eor x0, vff
+00023b fc35      sbrc k3, 5
+00023c 271a      eor x1, vff
+00023d fc36      sbrc k3, 6
+00023e 272a      eor x2, vff
+00023f fc37      sbrc k3, 7
+000240 273a      eor x3, vff
+                 
+                 
+                  // 4bit SBOX in 19 clock cycles (fucking-A)
+                  // 1178 clock cycles per block
+                 
+000241 2721       eor t1,x1 
+                 
+000242 2f51       mov t2,x1
+000243 2352       and t2,t1
+                 
+000244 2705       eor t3,t2
+                 
+000245 2f73       mov y3,x3
+000246 2770       eor y3,t3
+                 
+000247 2f52       mov t2,t1
+000248 2350       and t2,t3
+                 
+000249 2727       eor t1,y3
+                 
+00024a 2751       eor t2,x1
+                 
+00024b 2f43       mov t4,x3
+00024c 2b45       or t4,t2
+                 
+00024d 2742       eor y2,t1
+                 
+00024e 9530       com x3
+00024f 2753       eor t2,x3
+                 
+000250 2f64       mov y0,y2
+000251 2765       eor y0,t2
+                 
+000252 2b52       or t2,t1
+                 
+000253 2705       eor t3,t2
+                 
+                  //end of SBOX
+                 
+                 
+                 
+                  // Permuation of bit52-55
+000254 9360 00ad  sts $ad, y0
+000256 9300 00bd sts $bd, y1
+000258 9340 00cd sts $cd, y2
+00025a 9370 00dd sts $dd, y3
+                 
+                  //loading bit56-59
+                 
+                 
+00025c 9100 0098 lds x0, $98
+00025e 9110 0099 lds x1, $99
+000260 9120 009a lds x2, $9a
+000262 9130 009b lds x3, $9b
+                  
+                  
+000264 fc20      sbrc k2, 0
+000265 270a      eor x0, vff
+000266 fc21      sbrc k2, 1
+000267 271a      eor x1, vff
+000268 fc22      sbrc k2, 2
+000269 272a      eor x2, vff
+00026a fc23      sbrc k2, 3
+00026b 273a      eor x3, vff
+                 
+                 
+                  // 4bit SBOX in 19 clock cycles (fucking-A)
+                  // 1178 clock cycles per block
+                 
+00026c 2721       eor t1,x1 
+                 
+00026d 2f51       mov t2,x1
+00026e 2352       and t2,t1
+                 
+00026f 2705       eor t3,t2
+                 
+000270 2f73       mov y3,x3
+000271 2770       eor y3,t3
+                 
+000272 2f52       mov t2,t1
+000273 2350       and t2,t3
+                 
+000274 2727       eor t1,y3
+                 
+000275 2751       eor t2,x1
+                 
+000276 2f43       mov t4,x3
+000277 2b45       or t4,t2
+                 
+000278 2742       eor y2,t1
+                 
+000279 9530       com x3
+00027a 2753       eor t2,x3
+                 
+00027b 2f64       mov y0,y2
+00027c 2765       eor y0,t2
+                 
+00027d 2b52       or t2,t1
+                 
+00027e 2705       eor t3,t2
+                 
+                  //end of SBOX
+                 
+                  
+                  // Permuation of bit56-59
+00027f 9360 00ae sts $ae, y0
+000281 9300 00be sts $be, y1
+000283 9340 00ce sts $ce, y2
+000285 9370 00de sts $de, y3
+                  //loading bit60-63
+                 
+000287 9100 009c lds x0, $9c
+000289 9110 009d lds x1, $9d
+00028b 9120 009e lds x2, $9e
+00028d 9130 009f lds x3, $9f
+                 
+                 
+                 
+00028f fc24      sbrc k2, 4
+000290 270a      eor x0, vff
+000291 fc25      sbrc k2, 5
+000292 271a      eor x1, vff
+000293 fc26      sbrc k2, 6
+000294 272a      eor x2, vff
+000295 fc27      sbrc k2, 7
+000296 273a      eor x3, vff 
+                 
+                  // 4bit SBOX in 19 clock cycles (fucking-A)
+                  // 1178 clock cycles per block
+                 
+000297 2721       eor t1,x1 
+                 
+000298 2f51       mov t2,x1
+000299 2352       and t2,t1
+                 
+00029a 2705       eor t3,t2
+                 
+00029b 2f73       mov y3,x3
+00029c 2770       eor y3,t3
+                 
+00029d 2f52       mov t2,t1
+00029e 2350       and t2,t3
+                 
+00029f 2727       eor t1,y3
+                 
+0002a0 2751       eor t2,x1
+                 
+0002a1 2f43       mov t4,x3
+0002a2 2b45       or t4,t2
+                 
+0002a3 2742       eor y2,t1
+                 
+0002a4 9530       com x3
+0002a5 2753       eor t2,x3
+                 
+0002a6 2f64       mov y0,y2
+0002a7 2765       eor y0,t2
+                 
+0002a8 2b52       or t2,t1
+                 
+0002a9 2705       eor t3,t2
+                 
+                  //end of SBOX
+                 
+                 
+                 
+                  // Permuation of bit60-63
+                 
+                  
+                 
+0002aa 9360 00af sts $af, y0
+0002ac 9300 00bf sts $bf, y1
+0002ae 9340 00cf sts $cf, y2
+0002b0 9370 00df sts $df, y3
+                 
+                 //+++++++++++++++++++++ END OF SP NETWORK +++++++++++++++++++++
+                 
+                 
+                 
+                 //+++++++++++++++++++++++++ KEY UPDATE +++++++++++++++++++++++++++++
+                 
+0002b2 9583      inc counter /* Increase counter */
+                 
+                  /* Key XOR counter */
+0002b3 0f88       lsl counter
+0002b4 0f88       lsl counter
+0002b5 2648       eor k4,counter
+0002b6 9586       lsr counter
+0002b7 9586       lsr counter
+                 
+                  /* 61 rotations to left = 19 rotations to the right = 2*(8bit moves) +
+                     3 bit rotation right */
+                 
+                 
+                 /* 2*8 bit rotation is done easily with mov */
+0002b8 2ca0      mov k10,k0
+0002b9 2cb1      mov k11,k1
+                 /* key is stored in k2, k3, ... ,k11 */
+                 
+                 /* Perform 3 rotations to the right */
+                 
+                 /* 1st rotation */
+                 /* clear k1 which will work as a temp */
+0002ba 2411      eor k1,k1
+                 
+0002bb 94b6      lsr k11
+0002bc 94a7      ror k10
+0002bd 9497      ror k9
+0002be 9487      ror k8
+0002bf 9477      ror k7
+0002c0 9467      ror k6
+0002c1 9457      ror k5
+0002c2 9447      ror k4
+0002c3 9437      ror k3
+0002c4 9427      ror k2
+                 
+0002c5 9417      ror k1
+0002c6 2811      or k1,k1
+                 
+                 /*2nd rot*/
+0002c7 2411      eor k1,k1
+                 
+0002c8 94b6      lsr k11
+0002c9 94a7      ror k10
+0002ca 9497      ror k9
+0002cb 9487      ror k8
+0002cc 9477      ror k7
+0002cd 9467      ror k6
+0002ce 9457      ror k5
+0002cf 9447      ror k4
+0002d0 9437      ror k3
+0002d1 9427      ror k2
+                 
+0002d2 9417      ror k1
+0002d3 2811      or k1,k1
+                 
+                 /*3rd rot*/
+0002d4 2411      eor k1,k1
+                 
+0002d5 94b6      lsr k11
+0002d6 94a7      ror k10
+0002d7 9497      ror k9
+0002d8 9487      ror k8
+0002d9 9477      ror k7
+0002da 9467      ror k6
+0002db 9457      ror k5
+0002dc 9447      ror k4
+0002dd 9437      ror k3
+0002de 9427      ror k2
+                 
+0002df 9417      ror k1
+0002e0 2811      or k1,k1
+                 
+                 /* SBox on key bits 76,77,78,79 i.e. high part of register r11 (k11) */
+0002e1 e1f2      ldi ZH, 0x012
+0002e2 2deb      mov ZL,k11
+0002e3 90b4      lpm k11,Z
+                 
+                 /* key is stored in k2, k3, ... ,k11. I should probably move it back to k0,k1,k2,....,k9 */
+0002e4 2c02      mov k0,k2
+0002e5 2c13      mov k1,k3
+0002e6 2c24      mov k2,k4
+0002e7 2c35      mov k3,k5
+0002e8 2c46      mov k4,k6
+0002e9 2c57      mov k5,k7
+0002ea 2c68      mov k6,k8
+0002eb 2c79      mov k7,k9
+0002ec 2c8a      mov k8,k10
+0002ed 2c9b      mov k9,k11
+                 
+                 
+                 
+                 /* Finally, updated key is stored in r8,r9,r10,...,r17 */
+                 
+                 //+++++++++++++++++++++++++ END OF KEY UPDATE ++++++++++++++++++++++
+                 
+                 
+                  /* check if counter reached 31 */
+0002ee 318f       cpi counter,0x1F
+0002ef f409       brne ONE_MORE_ROUND
+                 
+                  END:
+                 
+                  /* Final xor */
+                 
+0002f0 fc90       sbrc k9, 0
+                 
+                  /*
+                 eor x0, vff
+                 sbrc k9, 1
+                 eor x1, vff
+                 sbrc k9, 2
+                 eor x2, vff
+                 sbrc k9, 3
+                 eor x3, vff
+                 
+                 
+                 sbrc k9, 4
+                 eor x0, vff
+                 sbrc k9, 5
+                 eor x1, vff
+                 sbrc k9, 6
+                 eor x2, vff
+                 sbrc k9, 7
+                 eor x3, vff
+                 
+                 
+                 sbrc k8, 0
+                 eor x0, vff
+                 sbrc k8, 1
+                 eor x1, vff
+                 sbrc k8, 2
+                 eor x2, vff
+                 sbrc k8, 3
+                 eor x3, vff
+                 
+                 
+                 sbrc k8, 4
+                 eor x0, vff
+                 sbrc k8, 5
+                 eor x1, vff
+                 sbrc k8, 6
+                 eor x2, vff
+                 sbrc k8, 7
+                 eor x3, vff
+                 
+                 
+                 sbrc k7, 0
+                 eor x0, vff
+                 sbrc k7, 1
+                 eor x1, vff
+                 sbrc k7, 2
+                 eor x2, vff
+                 sbrc k7, 3
+                 eor x3, vff
+                 
+                 
+                 sbrc k7, 4
+                 eor x0, vff
+                 sbrc k7, 5
+                 eor x1, vff
+                 sbrc k7, 6
+                 eor x2, vff
+                 sbrc k7, 7
+                 eor x3, vff
+                 
+                 
+                 sbrc k6, 0
+                 eor x0, vff
+                 sbrc k6, 1
+                 eor x1, vff
+                 sbrc k6, 2
+                 eor x2, vff
+                 sbrc k6, 3
+                 eor x3, vff
+                 
+                 
+                 sbrc k6, 4
+                 eor x0, vff
+                 sbrc k6, 5
+                 eor x1, vff
+                 sbrc k6, 6
+                 eor x2, vff
+                 sbrc k6, 7
+                 eor x3, vff
+                 
+                 
+                 sbrc k5, 0
+                 eor x0, vff
+                 sbrc k5, 1
+                 eor x1, vff
+                 sbrc k5, 2
+                 eor x2, vff
+                 sbrc k5, 3
+                 eor x3, vff
+                 
+                 
+                 sbrc k5, 4
+                 eor x0, vff
+                 sbrc k5, 5
+                 eor x1, vff
+                 sbrc k5, 6
+                 eor x2, vff
+                 sbrc k5, 7
+                 eor x3, vff
+                 
+                 
+                 sbrc k4, 0
+                 eor x0, vff
+                 sbrc k4, 1
+                 eor x1, vff
+                 sbrc k4, 2
+                 eor x2, vff
+                 sbrc k4, 3
+                 eor x3, vff
+                 
+                 
+                 sbrc k4, 4
+                 eor x0, vff
+                 sbrc k4, 5
+                 eor x1, vff
+                 sbrc k4, 6
+                 eor x2, vff
+                 sbrc k4, 7
+                 eor x3, vff
+                 
+                 
+                 sbrc k3, 0
+                 eor x0, vff
+                 sbrc k3, 1
+                 eor x1, vff
+                 sbrc k3, 2
+                 eor x2, vff
+                 sbrc k3, 3
+                 eor x3, vff
+                 
+                 
+                 sbrc k3, 4
+                 eor x0, vff
+                 sbrc k3, 5
+                 eor x1, vff
+                 sbrc k3, 6
+                 eor x2, vff
+                 sbrc k3, 7
+                 eor x3, vff
+                 
+                 
+                 sbrc k2, 0
+                 eor x0, vff
+                 sbrc k2, 1
+                 eor x1, vff
+                 sbrc k2, 2
+                 eor x2, vff
+                 sbrc k2, 3
+                 eor x3, vff
+                 
+                 
+                 sbrc k2, 4
+                 eor x0, vff
+                 sbrc k2, 5
+                 eor x1, vff
+                 sbrc k2, 6
+                 eor x2, vff
+                 sbrc k2, 7
+                 eor x3, vff
+                 
+                 */
+                  ONE_MORE_ROUND:
+0002f1 cd10       rjmp LOOP_BEGINNING
+                 
+
+
+RESOURCE USE INFORMATION
+------------------------
+
+Notice:
+The register and instruction counts are symbol table hit counts,
+and hence implicitly used resources are not counted, eg, the
+'lpm' instruction without operands implicitly uses r0 and z,
+none of which are counted.
+
+x,y,z are separate entities in the symbol table and are
+counted separately from r26..r31 here.
+
+.dseg memory usage only counts static data declared with .byte
+
+"ATtiny45" register use summary:
+r0 :   2 r1 :  17 r2 :  13 r3 :  13 r4 :  14 r5 :  13 r6 :  13 r7 :  13 
+r8 :  13 r9 :  14 r10:   5 r11:   7 r12:   0 r13:   0 r14:   0 r15:   0 
+r16: 112 r17:  80 r18: 128 r19:  96 r20:  80 r21: 176 r22:  48 r23:  64 
+r24:   9 r25:   0 r26:  65 r27:   0 r28:   0 r29:   0 r30:   3 r31:   1 
+x  :   0 y  :   0 z  :   1 
+Registers used: 25 out of 35 (71.4%)
+
+"ATtiny45" instruction use summary:
+.lds  :   0 .sts  :   0 adc   :   0 add   :   0 adiw  :   0 and   :  32 
+andi  :   0 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0 
+brcc  :   0 brcs  :   0 break :   0 breq  :   0 brge  :   0 brhc  :   0 
+brhs  :   0 brid  :   0 brie  :   0 brlo  :   0 brlt  :   0 brmi  :   0 
+brne  :   1 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
+brvs  :   0 bset  :   0 bst   :   0 cbi   :   0 cbr   :   0 clc   :   0 
+clh   :   0 cli   :   0 cln   :   0 clr   :   0 cls   :   0 clt   :   0 
+clv   :   0 clz   :   0 com   :  17 cp    :   0 cpc   :   0 cpi   :   1 
+cpse  :   0 dec   :   0 eor   : 214 icall :   0 ijmp  :   0 in    :   0 
+inc   :   1 ld    :   0 ldd   :   0 ldi   :   1 lds   :  64 lpm   :   2 
+lsl   :   2 lsr   :   5 mov   :  93 movw  :   0 neg   :   0 nop   :   0 
+or    :  35 ori   :   0 out   :   0 pop   :   0 push  :   0 rcall :   0 
+ret   :   0 reti  :   0 rjmp  :   1 rol   :   0 ror   :  30 sbc   :   0 
+sbci  :   0 sbi   :   0 sbic  :   0 sbis  :   0 sbiw  :   0 sbr   :   0 
+sbrc  :  65 sbrs  :   0 sec   :   0 seh   :   0 sei   :   0 sen   :   0 
+ser   :   0 ses   :   0 set   :   0 sev   :   0 sez   :   0 sleep :   0 
+spm   :   0 st    :   0 std   :   0 sts   :  64 sub   :   0 subi  :   0 
+swap  :   0 tst   :   0 wdr   :   0 
+Instructions used: 17 out of 105 (16.2%)
+
+"ATtiny45" memory use summary [bytes]:
+Segment   Begin    End      Code   Data   Used    Size   Use%
+---------------------------------------------------------------
+[.cseg] 0x000000 0x000d00   1510    256   1766    4096  43.1%
+[.dseg] 0x000060 0x000060      0      0      0     256   0.0%
+[.eseg] 0x000000 0x000000      0      0      0     256   0.0%
+
+Assembly complete, 0 errors, 5 warnings
